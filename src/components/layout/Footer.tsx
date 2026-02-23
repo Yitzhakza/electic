@@ -3,7 +3,7 @@ import { BRANDS } from '@/lib/constants';
 
 export default function Footer() {
   return (
-    <footer className="bg-surface-dark text-gray-300 mt-16">
+    <footer className="bg-gradient-to-b from-slate-800 to-slate-900 text-gray-300 mt-16">
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About */}

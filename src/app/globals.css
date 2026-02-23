@@ -14,6 +14,14 @@
   --color-border: #e2e8f0;
 
   --font-sans: 'Rubik', 'Segoe UI', Tahoma, Arial, sans-serif;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-delayed: float 6s ease-in-out 3s infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
 }
 
 @layer base {
@@ -22,4 +30,16 @@
     background-color: var(--color-surface);
     color: #1e293b;
   }
+}
+
+@utility glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@utility gradient-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

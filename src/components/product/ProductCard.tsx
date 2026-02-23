@@ -14,14 +14,14 @@ export default function ProductCard({ product }: ProductCardProps) {
   const discount = product.originalPrice ? calcDiscount(product.originalPrice, product.price) : 0;
 
   return (
-    <Card hover className="overflow-hidden flex flex-col">
-      <Link href={`/p/${product.slug}`} className="block relative aspect-square bg-gray-50">
+    <Card hover className="overflow-hidden flex flex-col group">
+      <Link href={`/p/${product.slug}`} className="block relative aspect-square bg-gray-50 overflow-hidden">
         {product.images[0] && (
           <Image
             src={product.images[0]}
             alt={product.title}
             fill
-            className="object-contain p-2"
+            className="object-contain p-2 transition-transform duration-300 group-hover:scale-105"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             loading="lazy"
           />

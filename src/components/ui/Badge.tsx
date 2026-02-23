@@ -8,10 +8,10 @@ interface BadgeProps {
 
 const variants: Record<Variant, string> = {
   default: 'bg-gray-100 text-gray-700',
-  sale: 'bg-red-100 text-red-700',
-  coupon: 'bg-green-100 text-green-700',
-  brand: 'bg-blue-100 text-blue-700',
-  category: 'bg-purple-100 text-purple-700',
+  sale: 'bg-gradient-to-r from-red-500 to-pink-500 text-white',
+  coupon: 'bg-gradient-to-r from-green-500 to-emerald-500 text-white',
+  brand: 'bg-blue-50 text-blue-700 ring-1 ring-blue-200',
+  category: 'bg-purple-50 text-purple-700 ring-1 ring-purple-200',
 };
 
 export default function Badge({ variant = 'default', children, className = '' }: BadgeProps) {

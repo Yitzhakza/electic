@@ -12,7 +12,7 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-border shadow-sm">
+    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-border/50 shadow-sm">
       <div className="max-w-7xl mx-auto px-4">
         {/* Top bar */}
         <div className="flex items-center justify-between h-16 gap-4">
