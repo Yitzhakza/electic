@@ -200,16 +200,12 @@ export default async function ProductPage({ params }: PageProps) {
           </div>
 
           {/* Coupon */}
-          <div>
-            {couponCode ? (
-              <div>
-                <p className="text-sm font-medium mb-1">קוד קופון:</p>
-                <CouponBadge code={couponCode} />
-              </div>
-            ) : (
-              <p className="text-sm text-muted">אין קופון כרגע</p>
-            )}
-          </div>
+          {couponCode && (
+            <div>
+              <p className="text-sm font-medium mb-1">קוד קופון:</p>
+              <CouponBadge code={couponCode} />
+            </div>
+          )}
 
           {/* CTA */}
           <a
@@ -227,7 +223,7 @@ export default async function ProductPage({ params }: PageProps) {
           {description && (
             <div className="mt-4">
               <h2 className="font-medium mb-2">תיאור המוצר</h2>
-              <p className="text-sm text-muted leading-relaxed">{description}</p>
+              <div className="text-sm text-muted leading-relaxed whitespace-pre-line">{description}</div>
             </div>
           )}
         </div>
