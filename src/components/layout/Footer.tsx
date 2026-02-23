@@ -74,6 +74,12 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Newsletter */}
+        <div className="border-t border-gray-700 mt-8 pt-8 mb-8 text-center">
+          <h3 className="text-white font-bold mb-2">קבלו עדכונים על דילים חדשים</h3>
+          <p className="text-gray-400 text-sm mb-4">הרשמו וקבלו הנחות בלעדיות ומוצרים חדשים ישירות למייל.</p>
+        </div>
+
         <div className="border-t border-gray-700 mt-8 pt-6 text-center text-xs text-gray-500">
           <p>
             &copy; {new Date().getFullYear()} EV אביזרים. כל הזכויות שמורות.

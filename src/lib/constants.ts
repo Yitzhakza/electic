@@ -86,6 +86,13 @@ export const ACCESSORY_CATEGORIES = [
     keywords: ['dashboard', 'dash cover', 'dash mat', 'center console', 'cup holder', 'storage box', 'armrest'],
     order: 10,
   },
+  {
+    slug: 'general-accessories',
+    nameHe: 'אביזרים כלליים',
+    nameEn: 'General Accessories',
+    keywords: ['universal', 'car charger', 'dash cam', 'usb hub', 'car vacuum', 'air freshener', 'tire inflator', 'jump starter'],
+    order: 11,
+  },
 ] as const;
 
 export const BRAND_KEYWORDS: Record<string, string[]> = {

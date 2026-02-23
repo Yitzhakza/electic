@@ -1,4 +1,4 @@
-type Variant = 'default' | 'sale' | 'coupon' | 'brand' | 'category';
+type Variant = 'default' | 'sale' | 'coupon' | 'brand' | 'category' | 'bestseller' | 'new';
 
 interface BadgeProps {
   variant?: Variant;
@@ -12,6 +12,8 @@ const variants: Record<Variant, string> = {
   coupon: 'bg-gradient-to-r from-green-500 to-emerald-500 text-white',
   brand: 'bg-blue-50 text-blue-700 ring-1 ring-blue-200',
   category: 'bg-purple-50 text-purple-700 ring-1 ring-purple-200',
+  bestseller: 'bg-gradient-to-r from-amber-400 to-orange-500 text-white',
+  new: 'bg-gradient-to-r from-blue-400 to-indigo-500 text-white',
 };
 
 export default function Badge({ variant = 'default', children, className = '' }: BadgeProps) {

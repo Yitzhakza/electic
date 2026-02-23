@@ -9,6 +9,8 @@ import ProductSpecs from '@/components/product/ProductSpecs';
 import CouponBadge from '@/components/CouponBadge';
 import ProductGrid from '@/components/product/ProductGrid';
 import Badge from '@/components/ui/Badge';
+import ShareButtons from '@/components/product/ShareButtons';
+import TrustSignals from '@/components/TrustSignals';
 import { formatPriceDual, calcDiscount, usdToIls } from '@/lib/utils/price';
 import type { Metadata } from 'next';
 import type { ProductDisplay } from '@/types';
@@ -172,9 +174,11 @@ export default async function ProductPage({ params }: PageProps) {
             {brand && <Badge variant="brand">{brand.nameHe}</Badge>}
             {category && <Badge variant="category">{category.nameHe}</Badge>}
             {discount > 0 && <Badge variant="sale">-{discount}% הנחה</Badge>}
+            {product.totalOrders >= 100 && <Badge variant="bestseller">רב מכר</Badge>}
           </div>
 
           <h1 className="text-2xl md:text-3xl font-bold">{title}</h1>
+          <ShareButtons url={`/p/${product.slug}`} title={title} />
 
           {/* Price */}
           <div className="flex items-baseline gap-3">
@@ -199,6 +203,13 @@ export default async function ProductPage({ params }: PageProps) {
             {product.shippingInfo && <span>משלוח: {product.shippingInfo}</span>}
           </div>
 
+          {/* Description */}
+          {description && (
+            <div className="bg-gray-50 rounded-xl p-4 border border-border/50">
+              <p className="text-sm leading-relaxed text-gray-700">{description}</p>
+            </div>
+          )}
+
           {/* Coupon */}
           {couponCode && (
             <div>
@@ -212,7 +223,7 @@ export default async function ProductPage({ params }: PageProps) {
             href={product.affiliateUrl ?? product.originalUrl}
             target="_blank"
             rel="noopener noreferrer nofollow"
-            className="mt-4 inline-flex items-center justify-center gap-2 bg-accent text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-accent-dark transition-colors"
+            className="mt-4 inline-flex items-center justify-center gap-2 bg-accent text-white px-8 py-4 rounded-xl text-lg font-bold hover:opacity-90 transition-opacity"
           >
             לרכישה באליאקספרס
             <svg className="h-5 w-5 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -220,12 +231,8 @@ export default async function ProductPage({ params }: PageProps) {
             </svg>
           </a>
 
-          {description && (
-            <div className="mt-4">
-              <h2 className="font-medium mb-2">תיאור המוצר</h2>
-              <div className="text-sm text-muted leading-relaxed whitespace-pre-line">{description}</div>
-            </div>
-          )}
+          {/* Trust Signals */}
+          <TrustSignals variant="compact" />
         </div>
       </div>
 

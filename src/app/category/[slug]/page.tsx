@@ -9,43 +9,41 @@ import Pagination from '@/components/ui/Pagination';
 import type { Metadata } from 'next';
 import type { ProductDisplay } from '@/types';
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 24;
 
 interface PageProps {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ page?: string; category?: string; sort?: string }>;
+  searchParams: Promise<{ page?: string; brand?: string; sort?: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const brand = await db.select().from(brands).where(eq(brands.slug, slug)).limit(1);
-  if (!brand[0]) return {};
+  const cat = await db.select().from(accessoryCategories).where(eq(accessoryCategories.slug, slug)).limit(1);
+  if (!cat[0]) return {};
 
   return {
-    title: `אביזרים ל${brand[0].nameHe} - רכב חשמלי`,
-    description: `כל האביזרים לרכב חשמלי ${brand[0].nameHe} (${brand[0].nameEn}). שטיחים, מגני מסך, מטענים ועוד - במחירים משתלמים עם משלוח לישראל.`,
+    title: `${cat[0].nameHe} לרכבים חשמליים`,
+    description: `${cat[0].nameHe} (${cat[0].nameEn}) לכל הרכבים החשמליים. מגוון מוצרים במחירים משתלמים עם משלוח לישראל.`,
   };
 }
 
-export default async function BrandPage({ params, searchParams }: PageProps) {
+export default async function CategoryPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
   const sp = await searchParams;
 
-  const brand = await db.select().from(brands).where(eq(brands.slug, slug)).limit(1);
-  if (!brand[0]) notFound();
+  const cat = await db.select().from(accessoryCategories).where(eq(accessoryCategories.slug, slug)).limit(1);
+  if (!cat[0]) notFound();
 
   const page = Math.max(1, parseInt(sp.page ?? '1', 10));
-  const categorySlug = sp.category ?? '';
+  const brandSlug = sp.brand ?? '';
   const sort = sp.sort ?? '';
 
   // Build conditions
-  const conditions = [eq(products.brandId, brand[0].id), eq(products.isActive, true)];
+  const conditions = [eq(products.categoryId, cat[0].id), eq(products.isActive, true)];
 
-  if (categorySlug) {
-    const cat = await db.select().from(accessoryCategories).where(eq(accessoryCategories.slug, categorySlug)).limit(1);
-    if (cat[0]) {
-      conditions.push(eq(products.categoryId, cat[0].id));
-    }
+  if (brandSlug) {
+    const brand = await db.select().from(brands).where(eq(brands.slug, brandSlug)).limit(1);
+    if (brand[0]) conditions.push(eq(products.brandId, brand[0].id));
   }
 
   // Count
@@ -111,34 +109,45 @@ export default async function BrandPage({ params, searchParams }: PageProps) {
     createdAt: row.products.createdAt,
   }));
 
+  // Brands for filter
+  const brandList = await db
+    .select({ slug: brands.slug, nameHe: brands.nameHe })
+    .from(brands)
+    .where(eq(brands.enabled, true))
+    .orderBy(brands.displayOrder);
+
+  const filterParams: Record<string, string> = {};
+  if (brandSlug) filterParams.brand = brandSlug;
+  if (sort) filterParams.sort = sort;
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <Breadcrumbs
         items={[
           { label: 'ראשי', href: '/' },
-          { label: brand[0].nameHe },
+          { label: cat[0].nameHe },
         ]}
       />
 
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">אביזרים ל{brand[0].nameHe}</h1>
+        <h1 className="text-3xl font-bold mb-2">{cat[0].nameHe} לרכבים חשמליים</h1>
         <p className="text-muted">
-          {Number(count)} מוצרים נמצאו לרכבי {brand[0].nameHe}
+          {Number(count)} מוצרים נמצאו בקטגוריית {cat[0].nameHe}
         </p>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="lg:w-56 flex-shrink-0">
-          <FilterSidebar basePath={`/brand/${slug}`} />
+          <FilterSidebar basePath={`/category/${slug}`} brands={brandList} />
         </div>
 
         <div className="flex-1">
-          <ProductGrid products={productList} emptyMessage={`עדיין אין מוצרים ל${brand[0].nameHe}`} />
+          <ProductGrid products={productList} emptyMessage={`עדיין אין מוצרים בקטגוריית ${cat[0].nameHe}`} />
           <Pagination
             currentPage={page}
             totalPages={totalPages}
-            baseUrl={`/brand/${slug}`}
-            searchParams={{ ...(categorySlug && { category: categorySlug }), ...(sort && { sort }) }}
+            baseUrl={`/category/${slug}`}
+            searchParams={filterParams}
           />
         </div>
       </div>

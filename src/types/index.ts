@@ -109,4 +109,5 @@ export interface ProductDisplay {
   brandName: string | null;
   categorySlug: string | null;
   categoryName: string | null;
+  createdAt?: string | Date;
 }

@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 import { db } from '@/lib/db';
-import { products, brands } from '@/lib/db/schema';
+import { products, brands, accessoryCategories } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ev-accessories.co.il';
@@ -38,5 +38,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...brandPages, ...productPages];
+  // Category pages
+  const categoryList = await db.select({ slug: accessoryCategories.slug }).from(accessoryCategories).where(eq(accessoryCategories.enabled, true));
+  const categoryPages: MetadataRoute.Sitemap = categoryList.map((c) => ({
+    url: `${SITE_URL}/category/${c.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'daily' as const,
+    priority: 0.8,
+  }));
+
+  return [...staticPages, ...brandPages, ...categoryPages, ...productPages];
 }

@@ -44,7 +44,7 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
             {ACCESSORY_CATEGORIES.map((cat) => (
               <Link
                 key={cat.slug}
-                href={`/all-vehicles?category=${cat.slug}`}
+                href={`/category/${cat.slug}`}
                 onClick={onClose}
                 className="block px-3 py-2 rounded-lg text-sm hover:bg-gray-50 transition-colors"
               >

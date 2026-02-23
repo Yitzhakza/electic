@@ -4,6 +4,8 @@ import { brands, products, accessoryCategories, productOverrides } from '@/lib/d
 import { eq, desc, and, sql } from 'drizzle-orm';
 import BrandGrid from '@/components/brand/BrandGrid';
 import ProductGrid from '@/components/product/ProductGrid';
+import TrustSignals from '@/components/TrustSignals';
+import Newsletter from '@/components/Newsletter';
 import type { ProductDisplay } from '@/types';
 
 export const revalidate = 3600; // Revalidate every hour
@@ -19,40 +21,11 @@ const categoryMeta: Record<string, { emoji: string; gradient: string }> = {
   'seat-covers': { emoji: '💺', gradient: 'from-rose-500/10 to-rose-600/5' },
   'steering-wheel': { emoji: '🎯', gradient: 'from-indigo-500/10 to-indigo-600/5' },
   'dashboard': { emoji: '🎛️', gradient: 'from-teal-500/10 to-teal-600/5' },
+  'general-accessories': { emoji: '🔧', gradient: 'from-gray-500/10 to-gray-600/5' },
 };
 
-export default async function HomePage() {
-  // Fetch brands with product counts
-  const brandList = await db
-    .select({
-      slug: brands.slug,
-      nameHe: brands.nameHe,
-      nameEn: brands.nameEn,
-      productCount: sql<number>`count(${products.id})`.as('product_count'),
-    })
-    .from(brands)
-    .leftJoin(products, and(eq(products.brandId, brands.id), eq(products.isActive, true)))
-    .where(eq(brands.enabled, true))
-    .groupBy(brands.id)
-    .orderBy(brands.displayOrder);
-
-  // Fetch popular products (by orders)
-  const popularProducts = await db
-    .select()
-    .from(products)
-    .leftJoin(productOverrides, eq(productOverrides.productId, products.id))
-    .leftJoin(brands, eq(brands.id, products.brandId))
-    .leftJoin(accessoryCategories, eq(accessoryCategories.id, products.categoryId))
-    .where(
-      and(
-        eq(products.isActive, true),
-        sql`(${productOverrides.isHidden} IS NULL OR ${productOverrides.isHidden} = false)`
-      )
-    )
-    .orderBy(desc(products.totalOrders))
-    .limit(8);
-
-  const popularDisplay: ProductDisplay[] = popularProducts.map((row) => ({
+function mapToDisplay(row: any): ProductDisplay {
+  return {
     id: row.products.id,
     slug: row.products.slug,
     title: row.product_overrides?.titleHeOverride ?? row.products.titleHe ?? row.products.titleOriginal,
@@ -70,13 +43,71 @@ export default async function HomePage() {
     brandName: row.brands?.nameHe ?? null,
     categorySlug: row.accessory_categories?.slug ?? null,
     categoryName: row.accessory_categories?.nameHe ?? null,
-  }));
+    createdAt: row.products.createdAt,
+  };
+}
 
-  // Fetch categories
-  const categoryList = await db
+export default async function HomePage() {
+  // Fetch brands with product counts
+  const brandList = await db
+    .select({
+      slug: brands.slug,
+      nameHe: brands.nameHe,
+      nameEn: brands.nameEn,
+      productCount: sql<number>`count(${products.id})`.as('product_count'),
+    })
+    .from(brands)
+    .leftJoin(products, and(eq(products.brandId, brands.id), eq(products.isActive, true)))
+    .where(eq(brands.enabled, true))
+    .groupBy(brands.id)
+    .orderBy(brands.displayOrder);
+
+  const activeFilter = and(
+    eq(products.isActive, true),
+    sql`(${productOverrides.isHidden} IS NULL OR ${productOverrides.isHidden} = false)`
+  );
+
+  // Fetch popular products (by orders)
+  const popularProducts = await db
     .select()
+    .from(products)
+    .leftJoin(productOverrides, eq(productOverrides.productId, products.id))
+    .leftJoin(brands, eq(brands.id, products.brandId))
+    .leftJoin(accessoryCategories, eq(accessoryCategories.id, products.categoryId))
+    .where(activeFilter)
+    .orderBy(desc(products.totalOrders))
+    .limit(8);
+
+  const popularDisplay: ProductDisplay[] = popularProducts.map(mapToDisplay);
+
+  // Fetch new products (recently added)
+  const newProducts = await db
+    .select()
+    .from(products)
+    .leftJoin(productOverrides, eq(productOverrides.productId, products.id))
+    .leftJoin(brands, eq(brands.id, products.brandId))
+    .leftJoin(accessoryCategories, eq(accessoryCategories.id, products.categoryId))
+    .where(activeFilter)
+    .orderBy(desc(products.createdAt))
+    .limit(8);
+
+  const newDisplay: ProductDisplay[] = newProducts.map(mapToDisplay);
+
+  // Fetch categories with product counts
+  const categoryListWithCounts = await db
+    .select({
+      id: accessoryCategories.id,
+      slug: accessoryCategories.slug,
+      nameHe: accessoryCategories.nameHe,
+      nameEn: accessoryCategories.nameEn,
+      displayOrder: accessoryCategories.displayOrder,
+      enabled: accessoryCategories.enabled,
+      productCount: sql<number>`count(${products.id})`.as('product_count'),
+    })
     .from(accessoryCategories)
+    .leftJoin(products, and(eq(products.categoryId, accessoryCategories.id), eq(products.isActive, true)))
     .where(eq(accessoryCategories.enabled, true))
+    .groupBy(accessoryCategories.id)
     .orderBy(accessoryCategories.displayOrder);
 
   const totalProducts = brandList.reduce((sum, b) => sum + Number(b.productCount), 0);
@@ -154,6 +185,11 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Trust Signals */}
+      <section className="max-w-7xl mx-auto px-4 -mt-6 relative z-10">
+        <TrustSignals variant="horizontal" />
+      </section>
+
       {/* Brands */}
       <section className="max-w-7xl mx-auto px-4 py-14">
         <div className="flex items-center justify-between mb-8">
@@ -187,17 +223,18 @@ export default async function HomePage() {
             <h2 className="text-2xl font-bold">קטגוריות אביזרים</h2>
             <div className="h-1 w-12 bg-gradient-to-l from-accent to-teal-400 rounded-full mt-2" />
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-            {categoryList.map((cat) => {
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {categoryListWithCounts.map((cat) => {
               const meta = categoryMeta[cat.slug] ?? { emoji: '📦', gradient: 'from-gray-500/10 to-gray-600/5' };
               return (
                 <Link
                   key={cat.slug}
-                  href={`/all-vehicles?category=${cat.slug}`}
+                  href={`/category/${cat.slug}`}
                   className={`group bg-gradient-to-br ${meta.gradient} rounded-2xl border border-border/50 p-5 text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-300`}
                 >
                   <span className="text-3xl block mb-2">{meta.emoji}</span>
-                  <span className="font-medium text-sm group-hover:text-primary transition-colors">{cat.nameHe}</span>
+                  <span className="font-medium text-sm group-hover:text-primary transition-colors block">{cat.nameHe}</span>
+                  <span className="text-xs text-muted mt-1 block">{Number(cat.productCount)} מוצרים</span>
                 </Link>
               );
             })}
@@ -222,6 +259,30 @@ export default async function HomePage() {
           </Link>
         </div>
         <ProductGrid products={popularDisplay} />
+      </section>
+
+      {/* Divider */}
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="h-px bg-gradient-to-l from-transparent via-border to-transparent" />
+      </div>
+
+      {/* New Arrivals */}
+      <section className="max-w-7xl mx-auto px-4 py-14">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h2 className="text-2xl font-bold">חדשים באתר</h2>
+            <div className="h-1 w-12 bg-gradient-to-l from-indigo-500 to-blue-400 rounded-full mt-2" />
+          </div>
+          <Link href="/all-vehicles?sort=newest" className="text-sm text-primary hover:underline font-medium">
+            ראו עוד &larr;
+          </Link>
+        </div>
+        <ProductGrid products={newDisplay} />
+      </section>
+
+      {/* Newsletter */}
+      <section className="max-w-7xl mx-auto px-4 py-14">
+        <Newsletter />
       </section>
     </div>
   );

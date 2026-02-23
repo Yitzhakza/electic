@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import SearchBar from '@/components/SearchBar';
 import MobileMenu from './MobileMenu';
-import { BRANDS } from '@/lib/constants';
+import { BRANDS, ACCESSORY_CATEGORIES } from '@/lib/constants';
 
 const topBrands = BRANDS.slice(0, 8);
 
@@ -29,6 +29,24 @@ export default function Header() {
             <Link href="/all-vehicles" className="text-muted hover:text-primary transition-colors">
               כל הרכבים
             </Link>
+            <div className="relative group">
+              <span className="text-muted hover:text-primary transition-colors cursor-pointer">
+                קטגוריות
+              </span>
+              <div className="absolute start-0 top-full pt-2 hidden group-hover:block z-50">
+                <div className="bg-white rounded-xl shadow-lg border border-border p-2 min-w-48">
+                  {ACCESSORY_CATEGORIES.map((cat) => (
+                    <Link
+                      key={cat.slug}
+                      href={`/category/${cat.slug}`}
+                      className="block px-3 py-2 rounded-lg text-sm hover:bg-gray-50 transition-colors"
+                    >
+                      {cat.nameHe}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
             <Link href="/about" className="text-muted hover:text-primary transition-colors">
               אודות
             </Link>

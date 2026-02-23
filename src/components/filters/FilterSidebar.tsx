@@ -42,6 +42,7 @@ export default function FilterSidebar({ basePath, brands }: FilterSidebarProps) 
           <option value="price_desc">מחיר: מהגבוה לנמוך</option>
           <option value="orders">הכי נמכרים</option>
           <option value="rating">דירוג</option>
+          <option value="newest">חדשים</option>
         </select>
       </div>
 

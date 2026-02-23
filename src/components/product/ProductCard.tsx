@@ -12,6 +12,9 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   const { primary, secondary } = formatPriceDual(product.price, product.currency);
   const discount = product.originalPrice ? calcDiscount(product.originalPrice, product.price) : 0;
+  const isNew = product.createdAt
+    ? (Date.now() - new Date(product.createdAt).getTime()) < 14 * 24 * 60 * 60 * 1000
+    : false;
 
   return (
     <Card hover className="overflow-hidden flex flex-col group">
@@ -26,16 +29,14 @@ export default function ProductCard({ product }: ProductCardProps) {
             loading="lazy"
           />
         )}
-        {discount > 0 && (
-          <div className="absolute top-2 start-2">
-            <Badge variant="sale">-{discount}%</Badge>
-          </div>
-        )}
-        {product.couponCode && (
-          <div className="absolute top-2 end-2">
-            <Badge variant="coupon">קופון</Badge>
-          </div>
-        )}
+        <div className="absolute top-2 start-2 flex flex-col gap-1">
+          {discount > 0 && <Badge variant="sale">-{discount}%</Badge>}
+          {product.totalOrders >= 100 && <Badge variant="bestseller">רב מכר</Badge>}
+        </div>
+        <div className="absolute top-2 end-2 flex flex-col gap-1">
+          {product.couponCode && <Badge variant="coupon">קופון</Badge>}
+          {isNew && <Badge variant="new">חדש</Badge>}
+        </div>
       </Link>
 
       <div className="flex flex-col flex-1 p-4 gap-2">
@@ -47,6 +48,9 @@ export default function ProductCard({ product }: ProductCardProps) {
         <Link href={`/p/${product.slug}`} className="hover:text-primary transition-colors">
           <h3 className="text-sm font-medium line-clamp-2 leading-snug">{product.title}</h3>
         </Link>
+        {product.description && (
+          <p className="text-xs text-muted line-clamp-1">{product.description}</p>
+        )}
 
         <div className="mt-auto pt-2">
           <div className="flex items-baseline gap-2">

@@ -57,6 +57,7 @@ export default async function AllVehiclesPage({ searchParams }: PageProps) {
     case 'price_desc': orderBy = desc(products.price); break;
     case 'orders': orderBy = desc(products.totalOrders); break;
     case 'rating': orderBy = desc(products.rating); break;
+    case 'newest': orderBy = desc(products.createdAt); break;
     default: orderBy = desc(products.totalOrders);
   }
 
@@ -92,6 +93,7 @@ export default async function AllVehiclesPage({ searchParams }: PageProps) {
     brandName: row.brands?.nameHe ?? null,
     categorySlug: row.accessory_categories?.slug ?? null,
     categoryName: row.accessory_categories?.nameHe ?? null,
+    createdAt: row.products.createdAt,
   }));
 
   // Brands for filter
