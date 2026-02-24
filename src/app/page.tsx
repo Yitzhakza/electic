@@ -117,7 +117,7 @@ export default async function HomePage() {
   const totalProducts = brandList.reduce((sum, b) => sum + Number(b.productCount), 0);
   const totalBrands = brandList.filter(b => Number(b.productCount) > 0).length;
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ev-accessories.co.il';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ev-shop.co.il';
 
   const itemListJsonLd = {
     '@context': 'https://schema.org',

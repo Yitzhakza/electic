@@ -3,7 +3,7 @@ import { db } from '@/lib/db';
 import { products, brands, accessoryCategories } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ev-accessories.co.il';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ev-shop.co.il';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Static pages

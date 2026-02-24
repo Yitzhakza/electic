@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   },
   description:
     'האתר המוביל בישראל לאביזרים לרכבים חשמליים. שטיחים, מגני מסך, מטענים, מחזיקי טלפון ועוד - לטסלה, BYD, MG ולכל הרכבים החשמליים.',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ev-accessories.co.il'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ev-shop.co.il'),
   openGraph: {
     type: 'website',
     locale: 'he_IL',
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   },
 };
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ev-accessories.co.il';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ev-shop.co.il';
 
 const organizationJsonLd = {
   '@context': 'https://schema.org',

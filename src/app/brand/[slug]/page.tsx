@@ -114,7 +114,7 @@ export default async function BrandPage({ params, searchParams }: PageProps) {
     createdAt: row.products.createdAt,
   }));
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ev-accessories.co.il';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ev-shop.co.il';
 
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',

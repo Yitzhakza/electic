@@ -22,10 +22,10 @@ export default function ContactPage() {
           <div>
             <h2 className="font-medium mb-1">דוא&quot;ל</h2>
             <a
-              href={`mailto:${process.env.ADMIN_EMAIL ?? 'contact@ev-accessories.co.il'}`}
+              href={`mailto:${process.env.ADMIN_EMAIL ?? 'contact@ev-shop.co.il'}`}
               className="text-primary hover:underline"
             >
-              {process.env.ADMIN_EMAIL ?? 'contact@ev-accessories.co.il'}
+              {process.env.ADMIN_EMAIL ?? 'contact@ev-shop.co.il'}
             </a>
           </div>
 

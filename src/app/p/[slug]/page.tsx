@@ -144,7 +144,7 @@ export default async function ProductPage({ params }: PageProps) {
   const relevantCoupons = getRelevantCoupons(product.price);
   const generalCouponsData = getCurrentGeneralCoupons();
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ev-accessories.co.il';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ev-shop.co.il';
 
   // JSON-LD Product schema
   const jsonLd = {
