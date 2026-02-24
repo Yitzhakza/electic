@@ -3,7 +3,7 @@ import Breadcrumbs from '@/components/layout/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'מדיניות פרטיות',
-  description: 'מדיניות הפרטיות של אתר EV אביזרים.',
+  description: 'מדיניות הפרטיות של אתר EV Shop.',
 };
 
 export default function PrivacyPage() {

@@ -3,7 +3,7 @@ import Breadcrumbs from '@/components/layout/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'אודות',
-  description: 'אודות אתר EV אביזרים - האתר המוביל בישראל לאביזרים לרכבים חשמליים.',
+  description: 'אודות אתר EV Shop - האתר המוביל בישראל לאביזרים לרכבים חשמליים.',
 };
 
 export default function AboutPage() {
@@ -11,11 +11,11 @@ export default function AboutPage() {
     <div className="max-w-3xl mx-auto px-4 py-8">
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'אודות' }]} />
 
-      <h1 className="text-3xl font-bold mb-6">אודות EV אביזרים</h1>
+      <h1 className="text-3xl font-bold mb-6">אודות EV Shop</h1>
 
       <div className="prose prose-lg max-w-none space-y-4 text-gray-700 leading-relaxed">
         <p>
-          ברוכים הבאים ל-EV אביזרים - האתר המוביל בישראל לאביזרים לרכבים חשמליים.
+          ברוכים הבאים ל-EV Shop - האתר המוביל בישראל לאביזרים לרכבים חשמליים.
         </p>
         <p>
           המהפכה החשמלית בישראל צוברת תאוצה, ואנחנו כאן כדי לעזור לכם למצוא את האביזרים

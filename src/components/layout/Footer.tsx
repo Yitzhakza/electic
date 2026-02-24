@@ -12,7 +12,7 @@ export default function Footer() {
               <svg className="h-6 w-6 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
-              EV אביזרים
+              EV Shop
             </h3>
             <p className="text-sm leading-relaxed">
               האתר המוביל בישראל לאביזרים לרכבים חשמליים.
@@ -87,7 +87,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-700 mt-8 pt-6 text-center text-xs text-gray-500">
           <p>
-            &copy; {new Date().getFullYear()} EV אביזרים. כל הזכויות שמורות.
+            &copy; {new Date().getFullYear()} EV Shop. כל הזכויות שמורות.
           </p>
           <p className="mt-1">
             אתר זה מכיל קישורי אפילייט. לפרטים נוספים ראו את{' '}

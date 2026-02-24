@@ -3,7 +3,7 @@ import Breadcrumbs from '@/components/layout/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'גילוי נאות אפילייט',
-  description: 'גילוי נאות על קישורי אפילייט באתר EV אביזרים.',
+  description: 'גילוי נאות על קישורי אפילייט באתר EV Shop.',
 };
 
 export default function DisclosurePage() {

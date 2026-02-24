@@ -3,7 +3,7 @@ import Breadcrumbs from '@/components/layout/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'צור קשר',
-  description: 'צרו קשר עם צוות EV אביזרים.',
+  description: 'צרו קשר עם צוות EV Shop.',
 };
 
 export default function ContactPage() {

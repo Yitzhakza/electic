@@ -16,7 +16,7 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
       <div className="absolute inset-y-0 start-0 w-80 max-w-[85vw] bg-white shadow-xl overflow-y-auto">
         <div className="flex items-center justify-between p-4 border-b border-border">
-          <span className="text-lg font-bold text-primary">EV אביזרים</span>
+          <span className="text-lg font-bold text-primary">EV Shop</span>
           <button onClick={onClose} className="p-2 text-muted hover:text-primary cursor-pointer">
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />

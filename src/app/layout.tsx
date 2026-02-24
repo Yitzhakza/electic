@@ -5,8 +5,8 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: 'EV אביזרים - אביזרים לרכבים חשמליים בישראל',
-    template: '%s | EV אביזרים',
+    default: 'EV Shop - אביזרים לרכבים חשמליים בישראל',
+    template: '%s | EV Shop',
   },
   description:
     'האתר המוביל בישראל לאביזרים לרכבים חשמליים. שטיחים, מגני מסך, מטענים, מחזיקי טלפון ועוד - לטסלה, BYD, MG ולכל הרכבים החשמליים.',
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'he_IL',
-    siteName: 'EV אביזרים',
+    siteName: 'EV Shop',
   },
 };
 
@@ -23,7 +23,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ev-shop.co.il';
 const organizationJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'EV אביזרים',
+  name: 'EV Shop',
   url: SITE_URL,
   description: 'האתר המוביל בישראל לאביזרים לרכבים חשמליים. שטיחים, מגני מסך, מטענים ועוד - לטסלה, BYD, MG ולכל הרכבים החשמליים.',
   inLanguage: 'he',
@@ -32,7 +32,7 @@ const organizationJsonLd = {
 const webSiteJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'EV אביזרים',
+  name: 'EV Shop',
   url: SITE_URL,
   inLanguage: 'he',
   description: 'אביזרים לרכבים חשמליים בישראל - מחירים משתלמים עם משלוח ישיר',

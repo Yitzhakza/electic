@@ -20,7 +20,7 @@ export default function Header() {
             <svg className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
-            <span className="text-xl font-bold text-primary hidden sm:block">EV אביזרים</span>
+            <span className="text-xl font-bold text-primary hidden sm:block">EV Shop</span>
           </Link>
 
           <SearchBar className="flex-1 max-w-lg" />

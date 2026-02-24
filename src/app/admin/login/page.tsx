@@ -42,7 +42,7 @@ export default function AdminLoginPage() {
             <svg className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
-            <span className="text-2xl font-bold text-primary">EV אביזרים</span>
+            <span className="text-2xl font-bold text-primary">EV Shop</span>
           </div>
           <p className="text-muted">כניסה לממשק ניהול</p>
         </div>
