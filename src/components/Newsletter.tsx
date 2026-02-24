@@ -1,15 +1,29 @@
 'use client';
 
 import { useState } from 'react';
+import { trackEvent } from '@/lib/analytics';
 
 export default function Newsletter() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.trim()) {
+    if (!email.trim() || loading) return;
+    setLoading(true);
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, source: 'newsletter' }),
+      });
+      if (res.ok) trackEvent('lead_form_submit_success', { source: 'newsletter' });
+    } catch {
+      // Silently fail — still show success for UX
+    } finally {
       setSubmitted(true);
+      setLoading(false);
     }
   };
 
@@ -35,9 +49,10 @@ export default function Newsletter() {
           />
           <button
             type="submit"
-            className="bg-accent text-white px-6 py-3 rounded-xl font-medium hover:opacity-90 transition-opacity cursor-pointer"
+            disabled={loading}
+            className="bg-accent text-white px-6 py-3 rounded-xl font-medium hover:opacity-90 transition-opacity cursor-pointer disabled:opacity-50"
           >
-            הרשמה
+            {loading ? 'שולח...' : 'הרשמה'}
           </button>
         </form>
       ) : (

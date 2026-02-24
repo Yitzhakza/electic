@@ -187,3 +187,15 @@ export const syncLogsRelations = relations(syncLogs, ({ one }) => ({
   syncRun: one(syncRuns, { fields: [syncLogs.syncRunId], references: [syncRuns.id] }),
   query: one(searchQueries, { fields: [syncLogs.queryId], references: [searchQueries.id] }),
 }));
+
+// ── Leads ──────────────────────────────────────────────────────────
+export const leads = pgTable('leads', {
+  id: serial('id').primaryKey(),
+  email: varchar('email', { length: 255 }).notNull(),
+  phone: varchar('phone', { length: 32 }),
+  carModel: varchar('car_model', { length: 128 }),
+  source: varchar('source', { length: 64 }).notNull().default('website'),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+}, (table) => [
+  index('idx_leads_email').on(table.email),
+]);

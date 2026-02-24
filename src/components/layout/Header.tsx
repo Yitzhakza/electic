@@ -5,6 +5,7 @@ import { useState } from 'react';
 import SearchBar from '@/components/SearchBar';
 import MobileMenu from './MobileMenu';
 import { BRANDS, ACCESSORY_CATEGORIES } from '@/lib/constants';
+import { trackEvent } from '@/lib/analytics';
 
 const topBrands = BRANDS.slice(0, 8);
 
@@ -53,6 +54,18 @@ export default function Header() {
             <Link href="/about" className="text-muted hover:text-primary transition-colors">
               אודות
             </Link>
+            <Link href="/blog" className="text-muted hover:text-primary transition-colors">
+              מדריכים
+            </Link>
+            <button
+              className="bg-accent text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-accent-dark transition-colors cursor-pointer"
+              onClick={() => {
+                trackEvent('guide_download_click', { source: 'header_cta' });
+                (window as any).__openLeadModal?.();
+              }}
+            >
+              מדריך חינם
+            </button>
           </nav>
 
           <button

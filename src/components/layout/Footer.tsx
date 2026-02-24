@@ -49,6 +49,16 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/compare/chargers" className="hover:text-white transition-colors">
+                  השוואת מטענים
+                </Link>
+              </li>
+              <li>
+                <Link href="/blog" className="hover:text-white transition-colors">
+                  מדריכים
+                </Link>
+              </li>
+              <li>
                 <Link href="/about" className="hover:text-white transition-colors">
                   אודות
                 </Link>

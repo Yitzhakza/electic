@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import ScrollDepthTracker from '@/components/ScrollDepthTracker';
+import LeadCaptureModal from '@/components/lead/LeadCaptureModal';
+import StickyCTA from '@/components/lead/StickyCTA';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -47,6 +50,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="he" dir="rtl">
       <head>
+        {process.env.NEXT_PUBLIC_GA4_ID && (
+          <>
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA4_ID}`} />
+            <script dangerouslySetInnerHTML={{ __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${process.env.NEXT_PUBLIC_GA4_ID}');` }} />
+          </>
+        )}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -58,8 +67,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-screen flex flex-col">
         <Header />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 pb-16 md:pb-0">{children}</main>
         <Footer />
+        <ScrollDepthTracker />
+        <LeadCaptureModal />
+        <StickyCTA />
       </body>
     </html>
   );

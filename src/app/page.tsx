@@ -7,6 +7,8 @@ import ProductGrid from '@/components/product/ProductGrid';
 import TrustSignals from '@/components/TrustSignals';
 import WhyBuyFromUs from '@/components/WhyBuyFromUs';
 import Newsletter from '@/components/Newsletter';
+import HeroCTAs from '@/components/HeroCTAs';
+import LeadCaptureInline from '@/components/lead/LeadCaptureInline';
 import type { ProductDisplay } from '@/types';
 
 export const revalidate = 3600; // Revalidate every hour
@@ -157,31 +159,37 @@ export default async function HomePage() {
             </span>
           </h1>
 
-          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10">
+          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-4">
             מצאו את האביזרים הטובים ביותר לרכב החשמלי שלכם — שטיחים, מגני מסך, מטענים ועוד.
             מחירים משתלמים עם משלוח ישיר לישראל.
           </p>
 
-          <div className="flex justify-center gap-4 flex-wrap">
-            <Link
-              href="/all-vehicles"
-              className="inline-flex items-center gap-2 bg-gradient-to-l from-blue-600 to-blue-500 text-white px-8 py-3.5 rounded-xl font-medium hover:from-blue-500 hover:to-blue-400 transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
-            >
-              לכל המוצרים
-              <svg className="h-4 w-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
-            <Link
-              href="/search"
-              className="inline-flex items-center gap-2 border border-white/30 text-white px-8 py-3.5 rounded-xl font-medium hover:bg-white/10 transition-all"
-            >
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              חיפוש אביזרים
-            </Link>
+          {/* Benefit bullets */}
+          <div className="flex flex-col sm:flex-row justify-center gap-4 text-sm text-gray-300 mb-6">
+            <span className="flex items-center justify-center gap-2">
+              <svg className="h-4 w-4 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+              מחירים מתעדכנים יומית
+            </span>
+            <span className="flex items-center justify-center gap-2">
+              <svg className="h-4 w-4 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+              גילוי נאות שקוף
+            </span>
+            <span className="flex items-center justify-center gap-2">
+              <svg className="h-4 w-4 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+              המלצות לפי התאמה לדגם
+            </span>
           </div>
+
+          {/* Trust bar */}
+          <div className="inline-flex items-center gap-3 text-xs text-gray-400 bg-white/5 px-4 py-2 rounded-full border border-white/10 mb-8">
+            <span>מעודכן ל-2026</span>
+            <span className="w-px h-3 bg-white/20" />
+            <span>גילוי נאות שקוף</span>
+            <span className="w-px h-3 bg-white/20" />
+            <span>המלצות לפי התאמה</span>
+          </div>
+
+          <HeroCTAs />
 
           {/* Stats */}
           <div className="flex justify-center gap-8 mt-12 text-white/70 text-sm">
@@ -312,6 +320,43 @@ export default async function HomePage() {
           </Link>
         </div>
         <ProductGrid products={newDisplay} />
+      </section>
+
+      {/* Lead Capture */}
+      <section className="max-w-7xl mx-auto px-4 py-8">
+        <LeadCaptureInline source="homepage" />
+      </section>
+
+      {/* Popular Guides */}
+      <section className="bg-gradient-to-b from-slate-50 to-white py-14">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-2xl font-bold">מדריכים פופולריים</h2>
+              <div className="h-1 w-12 bg-gradient-to-l from-purple-500 to-violet-400 rounded-full mt-2" />
+            </div>
+            <Link href="/blog" className="text-sm text-primary hover:underline font-medium">
+              כל המדריכים &larr;
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { slug: 'home-charging-guide-israel', title: 'מדריך טעינה ביתית לרכב חשמלי בישראל', category: 'טעינה בבית' },
+              { slug: 'monthly-charging-cost-israel', title: 'עלות טעינה חודשית — מחשבון וטבלה', category: 'עלויות' },
+              { slug: 'shared-building-charging', title: 'טעינה בבניין משותף: ועד בית ופתרונות', category: 'טעינה בבית' },
+            ].map((guide) => (
+              <Link
+                key={guide.slug}
+                href={`/blog/${guide.slug}`}
+                className="bg-white rounded-2xl border border-border/50 p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+              >
+                <span className="text-xs text-primary font-medium">{guide.category}</span>
+                <h3 className="font-bold mt-1 leading-snug">{guide.title}</h3>
+                <span className="text-sm text-primary font-medium mt-3 block">קראו עוד &larr;</span>
+              </Link>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Newsletter */}

@@ -130,3 +130,12 @@ export interface PlatformCoupon {
   promotionUrl: string | null;
   isActive: boolean;
 }
+
+export interface Lead {
+  id: number;
+  email: string;
+  phone: string | null;
+  carModel: string | null;
+  source: string;
+  createdAt: Date;
+}

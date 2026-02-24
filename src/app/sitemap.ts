@@ -15,6 +15,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/disclosure`, changeFrequency: 'monthly', priority: 0.2 },
     { url: `${SITE_URL}/contact`, changeFrequency: 'monthly', priority: 0.3 },
     { url: `${SITE_URL}/coupons`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.7 },
+    { url: `${SITE_URL}/blog`, changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${SITE_URL}/blog/home-charging-guide-israel`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${SITE_URL}/blog/monthly-charging-cost-israel`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${SITE_URL}/blog/ev-insurance-israel`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${SITE_URL}/blog/battery-degradation-myths`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${SITE_URL}/blog/shared-building-charging`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${SITE_URL}/blog/public-charging-tips`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${SITE_URL}/compare/chargers`, changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${SITE_URL}/charging/home-charging-israel`, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${SITE_URL}/by-model/byd-atto-3`, changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${SITE_URL}/by-model/tesla-model-3`, changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${SITE_URL}/by-model/tesla-model-y`, changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${SITE_URL}/by-model/mg4`, changeFrequency: 'weekly', priority: 0.7 },
   ];
 
   // Brand pages

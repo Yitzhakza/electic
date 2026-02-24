@@ -11,6 +11,7 @@ import Badge from '@/components/ui/Badge';
 import ShareButtons from '@/components/product/ShareButtons';
 import WhyBuyFromUs from '@/components/WhyBuyFromUs';
 import ProductCoupons from '@/components/ProductCoupons';
+import AffiliateDisclosure from '@/components/AffiliateDisclosure';
 import { getRelevantCoupons, getCurrentGeneralCoupons } from '@/lib/aliexpress/general-coupons';
 import { formatPriceDual, calcDiscount, usdToIls } from '@/lib/utils/price';
 import type { Metadata } from 'next';
@@ -277,6 +278,7 @@ export default async function ProductPage({ params }: PageProps) {
               <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
           </a>
+          <AffiliateDisclosure variant="inline" />
 
           {/* Why Buy From Us */}
           <WhyBuyFromUs variant="compact" />
