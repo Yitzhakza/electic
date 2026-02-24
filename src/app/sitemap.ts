@@ -28,6 +28,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/by-model/tesla-model-3`, changeFrequency: 'weekly', priority: 0.7 },
     { url: `${SITE_URL}/by-model/tesla-model-y`, changeFrequency: 'weekly', priority: 0.7 },
     { url: `${SITE_URL}/by-model/mg4`, changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${SITE_URL}/tools/charging-calculator`, changeFrequency: 'monthly', priority: 0.8 },
   ];
 
   // Brand pages

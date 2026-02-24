@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { leads } from '@/lib/db/schema';
 import { z } from 'zod';
+import { sendChargingGuideEmail } from '@/lib/email';
 
 const leadSchema = z.object({
   email: z.string().email(),
@@ -31,6 +32,11 @@ export async function POST(request: NextRequest) {
         source: parsed.data.source,
       })
       .returning();
+
+    // Send charging guide email (non-blocking — don't fail the request if email fails)
+    sendChargingGuideEmail(parsed.data.email, parsed.data.carModel).catch((err) => {
+      console.error('Failed to send guide email:', err);
+    });
 
     return NextResponse.json({ success: true, id: result.id });
   } catch (error) {

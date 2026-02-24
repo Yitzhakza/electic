@@ -54,6 +54,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/tools/charging-calculator" className="hover:text-white transition-colors">
+                  מחשבון טעינה
+                </Link>
+              </li>
+              <li>
                 <Link href="/blog" className="hover:text-white transition-colors">
                   מדריכים
                 </Link>
