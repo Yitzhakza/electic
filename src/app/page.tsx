@@ -117,8 +117,24 @@ export default async function HomePage() {
   const totalProducts = brandList.reduce((sum, b) => sum + Number(b.productCount), 0);
   const totalBrands = brandList.filter(b => Number(b.productCount) > 0).length;
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ev-accessories.co.il';
+
+  const itemListJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'מוצרים פופולריים לרכבים חשמליים',
+    numberOfItems: popularDisplay.length,
+    itemListElement: popularDisplay.map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: `${siteUrl}/p/${p.slug}`,
+      name: p.title,
+    })),
+  };
+
   return (
     <div>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }} />
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-bl from-slate-900 via-blue-950 to-slate-900 py-20 md:py-28">
         {/* Decorative floating circles */}

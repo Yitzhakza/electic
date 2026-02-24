@@ -114,8 +114,32 @@ export default async function BrandPage({ params, searchParams }: PageProps) {
     createdAt: row.products.createdAt,
   }));
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ev-accessories.co.il';
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'ראשי', item: siteUrl },
+      { '@type': 'ListItem', position: 2, name: `אביזרים ל${brand[0].nameHe}`, item: `${siteUrl}/brand/${slug}` },
+    ],
+  };
+
+  const collectionJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: `אביזרים ל${brand[0].nameHe} - רכב חשמלי`,
+    description: `כל האביזרים לרכב חשמלי ${brand[0].nameHe} (${brand[0].nameEn}). שטיחים, מגני מסך, מטענים ועוד - במחירים משתלמים עם משלוח לישראל.`,
+    url: `${siteUrl}/brand/${slug}`,
+    inLanguage: 'he',
+    numberOfItems: Number(count),
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }} />
+
       <Breadcrumbs
         items={[
           { label: 'ראשי', href: '/' },

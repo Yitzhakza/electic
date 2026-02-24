@@ -139,18 +139,23 @@ export default async function ProductPage({ params }: PageProps) {
     .where(eq(platformCoupons.isActive, true))
     .orderBy(platformCoupons.endDate);
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ev-accessories.co.il';
+
   // JSON-LD Product schema
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: title,
-    image: product.images,
+    image: product.images.filter((img: string) => img.startsWith('http')),
     description: description ?? title,
+    ...(brand && { brand: { '@type': 'Brand', name: brand.nameEn } }),
+    ...(category && { category: category.nameHe }),
     ...(product.rating && {
       aggregateRating: {
         '@type': 'AggregateRating',
         ratingValue: product.rating.toFixed(1),
         bestRating: '5',
+        ...(product.totalOrders > 0 && { reviewCount: product.totalOrders }),
       },
     }),
     offers: {
@@ -159,12 +164,28 @@ export default async function ProductPage({ params }: PageProps) {
       priceCurrency: product.currency,
       availability: 'https://schema.org/InStock',
       url: product.affiliateUrl ?? product.originalUrl,
+      seller: { '@type': 'Organization', name: 'AliExpress' },
+      shippingDetails: {
+        '@type': 'OfferShippingDetails',
+        shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'IL' },
+      },
     },
+  };
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'ראשי', item: siteUrl },
+      ...(brand ? [{ '@type': 'ListItem', position: 2, name: brand.nameHe, item: `${siteUrl}/brand/${brand.slug}` }] : []),
+      { '@type': 'ListItem', position: brand ? 3 : 2, name: title },
+    ],
   };
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
       <Breadcrumbs
         items={[

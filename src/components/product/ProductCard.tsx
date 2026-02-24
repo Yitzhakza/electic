@@ -19,7 +19,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Card hover className="overflow-hidden flex flex-col group">
       <Link href={`/p/${product.slug}`} className="block relative aspect-square bg-gray-50 overflow-hidden">
-        {product.images[0] && (
+        {product.images[0]?.startsWith('http') && (
           <Image
             src={product.images[0]}
             alt={product.title}
