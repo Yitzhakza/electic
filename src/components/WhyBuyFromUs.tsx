@@ -63,10 +63,10 @@ export default function WhyBuyFromUs({ variant = 'full' }: WhyBuyFromUsProps) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {items.map((item) => (
-          <div key={item.title} className="flex items-center gap-3 bg-gray-50 rounded-lg p-3 border border-border/50">
-            <div className="text-primary shrink-0">{item.icon}</div>
+          <div key={item.title} className="flex items-center gap-3 bg-surface-alt rounded-lg p-3 border border-border/40">
+            <div className="text-accent shrink-0">{item.icon}</div>
             <div>
-              <p className="text-xs font-medium">{item.title}</p>
+              <p className="text-xs font-medium text-text">{item.title}</p>
               <p className="text-xs text-muted">{item.shortDesc}</p>
             </div>
           </div>
@@ -76,16 +76,13 @@ export default function WhyBuyFromUs({ variant = 'full' }: WhyBuyFromUsProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
       {items.map((item) => (
-        <div
-          key={item.title}
-          className="bg-white rounded-2xl border border-border/50 p-6 hover:shadow-md transition-shadow"
-        >
-          <div className="w-12 h-12 bg-gradient-to-br from-primary/10 to-blue-500/5 rounded-xl flex items-center justify-center text-primary mb-4">
+        <div key={item.title}>
+          <div className="w-11 h-11 rounded-lg bg-accent/10 flex items-center justify-center text-accent mb-4">
             {item.icon}
           </div>
-          <h3 className="font-bold mb-2">{item.title}</h3>
+          <h3 className="text-lg font-bold mb-2 text-text">{item.title}</h3>
           <p className="text-sm text-muted leading-relaxed">{item.description}</p>
         </div>
       ))}

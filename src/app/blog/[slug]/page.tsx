@@ -408,21 +408,21 @@ export default async function BlogArticlePage({ params }: Props) {
         ]}
       />
 
-      <span className="inline-block text-xs text-primary font-medium bg-primary/10 rounded-full px-3 py-1 mb-3">
+      <span className="inline-block text-xs text-accent font-semibold uppercase tracking-wider mb-4">
         {article.category}
       </span>
 
-      <h1 className="text-3xl font-bold mb-6 leading-snug">{article.title}</h1>
+      <h1 className="text-3xl md:text-4xl font-bold mb-8 leading-tight tracking-tight">{article.title}</h1>
 
       {/* Table of contents */}
-      <nav className="bg-gray-50 rounded-xl border border-border/50 p-5 mb-8">
-        <p className="font-bold text-sm mb-3">תוכן עניינים</p>
+      <nav className="bg-surface-alt rounded-xl border border-border/40 p-6 mb-12">
+        <p className="font-bold text-sm mb-4 text-text">תוכן עניינים</p>
         <ol className="space-y-2">
           {article.sections.map((section, i) => (
             <li key={i}>
               <a
                 href={`#section-${i}`}
-                className="text-sm text-primary hover:underline"
+                className="text-sm text-accent hover:text-accent-dark"
               >
                 {i + 1}. {section.heading}
               </a>
@@ -434,12 +434,12 @@ export default async function BlogArticlePage({ params }: Props) {
       {/* Article sections */}
       <div className="prose prose-lg max-w-none">
         {article.sections.map((section, i) => (
-          <section key={i} id={`section-${i}`} className="mb-10">
-            <h2 className="text-2xl font-bold mb-4">{section.heading}</h2>
+          <section key={i} id={`section-${i}`} className="mb-14">
+            <h2 className="text-2xl md:text-[1.75rem] font-bold mb-5 tracking-tight">{section.heading}</h2>
             {section.content.split('\n\n').map((paragraph, j) => (
               <p
                 key={j}
-                className="text-gray-700 leading-relaxed mb-4"
+                className="text-text-secondary leading-[1.8] mb-5 text-[15px]"
                 dangerouslySetInnerHTML={{ __html: paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }}
               />
             ))}
@@ -458,14 +458,14 @@ export default async function BlogArticlePage({ params }: Props) {
       </div>
 
       {/* Related links */}
-      <div className="mt-10 bg-gray-50 rounded-xl border border-border/50 p-6">
-        <h2 className="font-bold text-lg mb-4">קישורים קשורים</h2>
+      <div className="mt-10 bg-surface-alt rounded-xl border border-border/40 p-6">
+        <h2 className="font-bold text-lg mb-4 text-text">קישורים קשורים</h2>
         <ul className="space-y-2">
           {article.relatedLinks.map((link, i) => (
             <li key={i}>
               <Link
                 href={link.href}
-                className="text-primary hover:underline text-sm"
+                className="text-accent hover:text-accent-dark text-sm"
               >
                 {link.label}
               </Link>

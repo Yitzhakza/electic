@@ -26,7 +26,7 @@ export default function SearchBar({ defaultValue = '', className = '' }: SearchB
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="חיפוש אביזרים..."
-        className="w-full rounded-2xl border border-border bg-white py-3 pe-4 ps-12 text-sm transition-all focus:border-primary focus:ring-2 focus:ring-primary/20 focus:shadow-lg focus:shadow-primary/10 outline-none"
+        className="w-full rounded-lg border border-border bg-surface-alt/50 py-3 pe-4 ps-12 text-sm transition-all placeholder:text-muted/50 focus:bg-white focus:border-accent focus:ring-2 focus:ring-accent/10 focus:shadow-sm outline-none"
         dir="rtl"
       />
       <button

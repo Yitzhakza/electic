@@ -13,19 +13,65 @@ import type { ProductDisplay } from '@/types';
 
 export const revalidate = 3600; // Revalidate every hour
 
-const categoryMeta: Record<string, { emoji: string; gradient: string }> = {
-  'floor-mats': { emoji: '🏠', gradient: 'from-blue-500/10 to-blue-600/5' },
-  'screen-protectors': { emoji: '📱', gradient: 'from-purple-500/10 to-purple-600/5' },
-  'chargers': { emoji: '⚡', gradient: 'from-yellow-500/10 to-amber-500/5' },
-  'phone-holders': { emoji: '📲', gradient: 'from-cyan-500/10 to-cyan-600/5' },
-  'trunk-organizers': { emoji: '🧳', gradient: 'from-orange-500/10 to-orange-600/5' },
-  'interior-lighting': { emoji: '💡', gradient: 'from-amber-500/10 to-amber-600/5' },
-  'car-covers': { emoji: '🚗', gradient: 'from-slate-500/10 to-slate-600/5' },
-  'seat-covers': { emoji: '💺', gradient: 'from-rose-500/10 to-rose-600/5' },
-  'steering-wheel': { emoji: '🎯', gradient: 'from-indigo-500/10 to-indigo-600/5' },
-  'dashboard': { emoji: '🎛️', gradient: 'from-teal-500/10 to-teal-600/5' },
-  'general-accessories': { emoji: '🔧', gradient: 'from-gray-500/10 to-gray-600/5' },
+const categoryIcons: Record<string, React.ReactNode> = {
+  'floor-mats': (
+    <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+    </svg>
+  ),
+  'screen-protectors': (
+    <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+    </svg>
+  ),
+  'chargers': (
+    <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+    </svg>
+  ),
+  'trunk-organizers': (
+    <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+    </svg>
+  ),
+  'cleaning': (
+    <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+    </svg>
+  ),
+  'general-accessories': (
+    <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17l-5.1-5.1a2.003 2.003 0 01-.3-2.46l1.14-1.72a2 2 0 012.79-.49l.86.57a2 2 0 002.22 0l.86-.57a2 2 0 012.79.49l1.14 1.72a2.003 2.003 0 01-.3 2.46l-5.1 5.1a1.414 1.414 0 01-2 0z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M21.174 6.812a1 1 0 00-3.986-3.987L3.842 16.174a2 2 0 00-.5.83l-1.321 4.352a.5.5 0 00.623.622l4.353-1.32a2 2 0 00.83-.497z" />
+    </svg>
+  ),
+  'hub-caps': (
+    <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.964m11.49-9.642l1.149-.964M7.501 19.795l.75-1.3m7.5-12.99l.75-1.3m-6.063 16.658l.26-1.477m2.605-14.772l.26-1.477m0 17.726l-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205L12 12m0 0l4.5 7.795M12 12L5.106 6.215M12 12l6.894-5.785" />
+    </svg>
+  ),
+  'seat-covers': (
+    <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L12 12.75l-5.571-3m11.142 0l4.179 2.25L12 17.25l-9.75-5.25 4.179-2.25m11.142 0l4.179 2.25L12 21.75l-9.75-5.25 4.179-2.25" />
+    </svg>
+  ),
+  'phone-holders': (
+    <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5h3m-6.75 2.25h10.5a2.25 2.25 0 002.25-2.25v-15a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 4.5v15a2.25 2.25 0 002.25 2.25z" />
+    </svg>
+  ),
+  'interior-lighting': (
+    <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+    </svg>
+  ),
 };
+
+const defaultIcon = (
+  <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V19.5m0 2.25l-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25" />
+  </svg>
+);
 
 function mapToDisplay(row: any): ProductDisplay {
   return {
@@ -137,77 +183,42 @@ export default async function HomePage() {
   return (
     <div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }} />
+
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-bl from-slate-900 via-blue-950 to-slate-900 py-20 md:py-28">
-        {/* Decorative floating circles */}
-        <div className="absolute top-10 start-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-10 end-10 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl animate-float-delayed" />
-        <div className="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-3xl" />
+      <section className="relative overflow-hidden bg-primary py-14 md:py-28">
+        <div className="absolute top-0 end-0 w-1/2 h-full bg-gradient-to-l from-white/[0.03] to-transparent" />
 
-        <div className="relative max-w-7xl mx-auto px-4 text-center">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white/80 text-sm px-4 py-2 rounded-full mb-6 border border-white/10">
-            <svg className="h-4 w-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            האתר המוביל בישראל לאביזרי רכב חשמלי
-          </div>
+        <div className="relative max-w-7xl mx-auto px-4">
+          <div className="max-w-2xl">
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-[1.15] tracking-tight">
+              כל מה שצריך לרכב<br />החשמלי שלכם
+            </h1>
 
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            אביזרים לרכבים{' '}
-            <span className="bg-gradient-to-l from-blue-400 to-cyan-300 gradient-text">
-              חשמליים
-            </span>
-          </h1>
+            <p className="text-lg text-white/70 mb-8 max-w-lg leading-relaxed">
+              אביזרים נבחרים, מחירים שקופים, קופונים פעילים. נבחר ונבדק עבורכם — עם משלוח ישיר לישראל.
+            </p>
 
-          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-4">
-            מצאו את האביזרים הטובים ביותר לרכב החשמלי שלכם — שטיחים, מגני מסך, מטענים ועוד.
-            מחירים משתלמים עם משלוח ישיר לישראל.
-          </p>
+            <HeroCTAs />
 
-          {/* Benefit bullets */}
-          <div className="flex flex-col sm:flex-row justify-center gap-4 text-sm text-gray-300 mb-6">
-            <span className="flex items-center justify-center gap-2">
-              <svg className="h-4 w-4 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              מחירים מתעדכנים יומית
-            </span>
-            <span className="flex items-center justify-center gap-2">
-              <svg className="h-4 w-4 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              גילוי נאות שקוף
-            </span>
-            <span className="flex items-center justify-center gap-2">
-              <svg className="h-4 w-4 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              המלצות לפי התאמה לדגם
-            </span>
-          </div>
-
-          {/* Trust bar */}
-          <div className="inline-flex items-center gap-3 text-xs text-gray-400 bg-white/5 px-4 py-2 rounded-full border border-white/10 mb-8">
-            <span>מעודכן ל-2026</span>
-            <span className="w-px h-3 bg-white/20" />
-            <span>גילוי נאות שקוף</span>
-            <span className="w-px h-3 bg-white/20" />
-            <span>המלצות לפי התאמה</span>
-          </div>
-
-          <HeroCTAs />
-
-          {/* Stats */}
-          <div className="flex justify-center gap-8 mt-12 text-white/70 text-sm">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold text-white">{totalBrands}</span>
-              מותגים
-            </div>
-            <div className="w-px h-8 bg-white/20" />
-            <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold text-white">{totalProducts}+</span>
-              מוצרים
-            </div>
-            <div className="w-px h-8 bg-white/20" />
-            <div className="flex items-center gap-2">
-              <svg className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-              משלוח לישראל
+            <div className="flex items-center gap-4 mt-8 text-sm text-white/50">
+              <span className="flex items-center gap-1.5">
+                <svg className="h-4 w-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                {totalProducts}+ מוצרים
+              </span>
+              <span className="flex items-center gap-1.5">
+                <svg className="h-4 w-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                {totalBrands} מותגים
+              </span>
+              <span className="flex items-center gap-1.5">
+                <svg className="h-4 w-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                משלוח לישראל
+              </span>
             </div>
           </div>
         </div>
@@ -219,63 +230,57 @@ export default async function HomePage() {
       </section>
 
       {/* Why Buy From Us */}
-      <section className="max-w-7xl mx-auto px-4 py-14">
+      <section className="max-w-7xl mx-auto px-4 py-20">
         <div className="mb-8">
-          <h2 className="text-2xl font-bold">למה לקנות דרכנו?</h2>
-          <div className="h-1 w-12 bg-gradient-to-l from-green-500 to-emerald-400 rounded-full mt-2" />
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight">למה לקנות דרכנו?</h2>
+          <div className="h-0.5 w-10 bg-accent rounded-full mt-3" />
         </div>
         <WhyBuyFromUs variant="full" />
       </section>
 
-      {/* Divider */}
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="h-px bg-gradient-to-l from-transparent via-border to-transparent" />
-      </div>
-
       {/* Brands */}
-      <section className="max-w-7xl mx-auto px-4 py-14">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h2 className="text-2xl font-bold">מותגים</h2>
-            <div className="h-1 w-12 bg-gradient-to-l from-blue-500 to-cyan-400 rounded-full mt-2" />
+      <section className="bg-surface-alt py-20">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight">מותגים</h2>
+              <div className="h-0.5 w-10 bg-accent rounded-full mt-3" />
+            </div>
+            <Link href="/all-vehicles" className="text-sm text-accent hover:underline font-medium">
+              כל המותגים &larr;
+            </Link>
           </div>
-          <Link href="/all-vehicles" className="text-sm text-primary hover:underline font-medium">
-            כל המותגים &larr;
-          </Link>
+          <BrandGrid
+            brands={brandList.map((b) => ({
+              slug: b.slug,
+              nameHe: b.nameHe,
+              nameEn: b.nameEn,
+              productCount: Number(b.productCount),
+            }))}
+          />
         </div>
-        <BrandGrid
-          brands={brandList.map((b) => ({
-            slug: b.slug,
-            nameHe: b.nameHe,
-            nameEn: b.nameEn,
-            productCount: Number(b.productCount),
-          }))}
-        />
       </section>
 
-      {/* Divider */}
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="h-px bg-gradient-to-l from-transparent via-border to-transparent" />
-      </div>
-
       {/* Categories */}
-      <section className="bg-gradient-to-b from-slate-50 to-white py-14">
+      <section className="py-20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="mb-8">
-            <h2 className="text-2xl font-bold">קטגוריות אביזרים</h2>
-            <div className="h-1 w-12 bg-gradient-to-l from-accent to-teal-400 rounded-full mt-2" />
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight">קטגוריות אביזרים</h2>
+            <div className="h-0.5 w-10 bg-accent rounded-full mt-3" />
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {categoryListWithCounts.map((cat) => {
-              const meta = categoryMeta[cat.slug] ?? { emoji: '📦', gradient: 'from-gray-500/10 to-gray-600/5' };
+              const icon = categoryIcons[cat.slug] ?? defaultIcon;
               return (
                 <Link
                   key={cat.slug}
                   href={`/category/${cat.slug}`}
-                  className={`group bg-gradient-to-br ${meta.gradient} rounded-2xl border border-border/50 p-5 text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-300`}
+                  className="group bg-white rounded-xl border border-border/40 p-5 text-center hover:border-accent/30 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300"
                 >
-                  <span className="text-3xl block mb-2">{meta.emoji}</span>
-                  <span className="font-medium text-sm group-hover:text-primary transition-colors block">{cat.nameHe}</span>
+                  <div className="w-12 h-12 mx-auto mb-3 rounded-lg bg-accent/8 flex items-center justify-center text-accent group-hover:bg-accent/12 transition-colors">
+                    {icon}
+                  </div>
+                  <span className="font-medium text-sm text-text group-hover:text-accent transition-colors block">{cat.nameHe}</span>
                   <span className="text-xs text-muted mt-1 block">{Number(cat.productCount)} מוצרים</span>
                 </Link>
               );
@@ -284,38 +289,30 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Divider */}
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="h-px bg-gradient-to-l from-transparent via-border to-transparent" />
-      </div>
-
       {/* Popular Products */}
-      <section className="max-w-7xl mx-auto px-4 py-14">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h2 className="text-2xl font-bold">מוצרים פופולריים</h2>
-            <div className="h-1 w-12 bg-gradient-to-l from-blue-500 to-cyan-400 rounded-full mt-2" />
+      <section className="bg-surface-alt py-20">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight">מוצרים פופולריים</h2>
+              <div className="h-0.5 w-10 bg-accent rounded-full mt-3" />
+            </div>
+            <Link href="/all-vehicles?sort=orders" className="text-sm text-accent hover:underline font-medium">
+              ראו עוד &larr;
+            </Link>
           </div>
-          <Link href="/all-vehicles?sort=orders" className="text-sm text-primary hover:underline font-medium">
-            ראו עוד &larr;
-          </Link>
+          <ProductGrid products={popularDisplay} />
         </div>
-        <ProductGrid products={popularDisplay} />
       </section>
 
-      {/* Divider */}
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="h-px bg-gradient-to-l from-transparent via-border to-transparent" />
-      </div>
-
       {/* New Arrivals */}
-      <section className="max-w-7xl mx-auto px-4 py-14">
+      <section className="max-w-7xl mx-auto px-4 py-20">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h2 className="text-2xl font-bold">חדשים באתר</h2>
-            <div className="h-1 w-12 bg-gradient-to-l from-indigo-500 to-blue-400 rounded-full mt-2" />
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight">חדשים באתר</h2>
+            <div className="h-0.5 w-10 bg-accent rounded-full mt-3" />
           </div>
-          <Link href="/all-vehicles?sort=newest" className="text-sm text-primary hover:underline font-medium">
+          <Link href="/all-vehicles?sort=newest" className="text-sm text-accent hover:underline font-medium">
             ראו עוד &larr;
           </Link>
         </div>
@@ -328,14 +325,14 @@ export default async function HomePage() {
       </section>
 
       {/* Popular Guides */}
-      <section className="bg-gradient-to-b from-slate-50 to-white py-14">
+      <section className="bg-surface-alt py-20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-2xl font-bold">מדריכים פופולריים</h2>
-              <div className="h-1 w-12 bg-gradient-to-l from-purple-500 to-violet-400 rounded-full mt-2" />
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight">מדריכים פופולריים</h2>
+              <div className="h-0.5 w-10 bg-accent rounded-full mt-3" />
             </div>
-            <Link href="/blog" className="text-sm text-primary hover:underline font-medium">
+            <Link href="/blog" className="text-sm text-accent hover:underline font-medium">
               כל המדריכים &larr;
             </Link>
           </div>
@@ -348,11 +345,11 @@ export default async function HomePage() {
               <Link
                 key={guide.slug}
                 href={`/blog/${guide.slug}`}
-                className="bg-white rounded-2xl border border-border/50 p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                className="bg-white rounded-xl border border-border/40 p-6 hover:border-accent/30 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300"
               >
-                <span className="text-xs text-primary font-medium">{guide.category}</span>
-                <h3 className="font-bold mt-1 leading-snug">{guide.title}</h3>
-                <span className="text-sm text-primary font-medium mt-3 block">קראו עוד &larr;</span>
+                <span className="text-xs text-accent font-medium">{guide.category}</span>
+                <h3 className="font-bold mt-1 leading-snug text-text">{guide.title}</h3>
+                <span className="text-sm text-accent font-medium mt-3 block">קראו עוד &larr;</span>
               </Link>
             ))}
           </div>
@@ -360,7 +357,7 @@ export default async function HomePage() {
       </section>
 
       {/* Newsletter */}
-      <section className="max-w-7xl mx-auto px-4 py-14">
+      <section className="max-w-7xl mx-auto px-4 py-20">
         <Newsletter />
       </section>
     </div>

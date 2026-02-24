@@ -7,13 +7,13 @@ interface BadgeProps {
 }
 
 const variants: Record<Variant, string> = {
-  default: 'bg-gray-100 text-gray-700',
-  sale: 'bg-gradient-to-r from-red-500 to-pink-500 text-white',
-  coupon: 'bg-gradient-to-r from-green-500 to-emerald-500 text-white',
-  brand: 'bg-blue-50 text-blue-700 ring-1 ring-blue-200',
-  category: 'bg-purple-50 text-purple-700 ring-1 ring-purple-200',
-  bestseller: 'bg-gradient-to-r from-amber-400 to-orange-500 text-white',
-  new: 'bg-gradient-to-r from-blue-400 to-indigo-500 text-white',
+  default: 'bg-stone-100 text-stone-700',
+  sale: 'bg-red-600 text-white font-semibold',
+  coupon: 'bg-success text-white font-semibold',
+  brand: 'bg-primary/8 text-primary border border-primary/15',
+  category: 'bg-accent/8 text-accent-dark border border-accent/15',
+  bestseller: 'bg-amber-500 text-white font-semibold',
+  new: 'bg-primary text-white font-semibold',
 };
 
 export default function Badge({ variant = 'default', children, className = '' }: BadgeProps) {

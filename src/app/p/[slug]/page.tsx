@@ -201,7 +201,7 @@ export default async function ProductPage({ params }: PageProps) {
         ]}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
         {/* Gallery */}
         <ProductGallery images={product.images} title={title} />
 
@@ -219,7 +219,7 @@ export default async function ProductPage({ params }: PageProps) {
 
           {/* Price */}
           <div className="flex items-baseline gap-3">
-            <span className="text-3xl font-bold text-primary">{primary}</span>
+            <span className="text-3xl font-bold text-text">{primary}</span>
             {secondary && <span className="text-lg text-muted">{secondary}</span>}
           </div>
           {product.originalPrice && product.originalPrice > product.price && (
@@ -242,8 +242,8 @@ export default async function ProductPage({ params }: PageProps) {
 
           {/* Description */}
           {description && (
-            <div className="bg-gray-50 rounded-xl p-4 border border-border/50">
-              <div className="text-sm leading-relaxed text-gray-700 space-y-3">
+            <div className="bg-surface-alt rounded-xl p-4 border border-border/50">
+              <div className="text-sm leading-relaxed text-text-secondary space-y-3">
                 {description.split('\n\n').map((paragraph, i) => (
                   <p key={i}>{paragraph}</p>
                 ))}
@@ -271,7 +271,7 @@ export default async function ProductPage({ params }: PageProps) {
             href={product.affiliateUrl ?? product.originalUrl}
             target="_blank"
             rel="noopener noreferrer nofollow"
-            className="mt-4 inline-flex items-center justify-center gap-2 bg-accent text-white px-8 py-4 rounded-xl text-lg font-bold hover:opacity-90 transition-opacity"
+            className="mt-4 inline-flex items-center justify-center gap-2 bg-cta text-primary-dark font-bold px-8 py-4 rounded-lg text-lg hover:bg-cta-dark shadow-md shadow-cta/20 transition-all duration-200"
           >
             לרכישה באליאקספרס
             <svg className="h-5 w-5 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -286,7 +286,7 @@ export default async function ProductPage({ params }: PageProps) {
       </div>
 
       {/* Specs */}
-      <div className="mb-12">
+      <div className="mb-16">
         <ProductSpecs specs={specs} />
       </div>
 

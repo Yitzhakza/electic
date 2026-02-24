@@ -5,9 +5,9 @@ import { trackEvent } from '@/lib/analytics';
 
 export default function HeroCTAs() {
   return (
-    <div className="flex justify-center gap-4 flex-wrap">
+    <div className="flex gap-4 flex-wrap">
       <button
-        className="inline-flex items-center gap-2 bg-gradient-to-l from-green-600 to-emerald-500 text-white px-8 py-3.5 rounded-xl font-medium hover:from-green-500 hover:to-emerald-400 transition-all shadow-lg shadow-green-500/25 hover:shadow-green-500/40 cursor-pointer"
+        className="inline-flex items-center gap-2 bg-cta text-primary-dark px-8 py-4 rounded-lg font-semibold text-base hover:bg-cta-dark transition-all duration-200 shadow-lg shadow-cta/20 cursor-pointer"
         onClick={() => {
           trackEvent('guide_download_click', { source: 'hero' });
           (window as any).__openLeadModal?.();
@@ -20,7 +20,7 @@ export default function HeroCTAs() {
       </button>
       <Link
         href="/all-vehicles"
-        className="inline-flex items-center gap-2 border border-white/30 text-white px-8 py-3.5 rounded-xl font-medium hover:bg-white/10 transition-all"
+        className="inline-flex items-center gap-2 bg-white/10 text-white px-8 py-4 rounded-lg font-medium text-base hover:bg-white/15 transition-all duration-200"
       >
         לכל המוצרים
         <svg className="h-4 w-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

@@ -58,12 +58,12 @@ export default function BlogIndexPage() {
           <Link
             key={article.slug}
             href={`/blog/${article.slug}`}
-            className="bg-white rounded-2xl border border-border/50 p-6 flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+            className="bg-white rounded-xl border border-border/40 p-6 flex flex-col hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-1 transition-all duration-300"
           >
-            <span className="text-xs text-primary font-medium mb-2">{article.category}</span>
-            <h2 className="font-bold text-lg mb-2 leading-snug">{article.title}</h2>
+            <span className="text-xs text-accent font-medium mb-2">{article.category}</span>
+            <h2 className="font-bold text-lg mb-2 leading-snug text-text">{article.title}</h2>
             <p className="text-sm text-muted flex-1">{article.excerpt}</p>
-            <span className="text-sm text-primary font-medium mt-4 hover:underline">&larr; קראו עוד</span>
+            <span className="text-sm text-accent font-medium mt-4 hover:underline">&larr; קראו עוד</span>
           </Link>
         ))}
       </div>

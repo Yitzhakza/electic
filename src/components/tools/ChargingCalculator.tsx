@@ -120,7 +120,7 @@ export default function ChargingCalculator() {
       {/* Inputs */}
       <div className="space-y-6">
         {/* Monthly Distance */}
-        <div className="bg-white rounded-xl border border-border/50 p-6">
+        <div className="bg-white rounded-lg border border-border/40 p-6">
           <label className="block font-semibold mb-3">
             נסיעה חודשית (ק&quot;מ)
           </label>
@@ -132,7 +132,7 @@ export default function ChargingCalculator() {
               step={50}
               value={monthlyKm}
               onChange={(e) => setMonthlyKm(Number(e.target.value))}
-              className="flex-1 accent-blue-600"
+              className="flex-1 accent-accent"
             />
             <input
               type="number"
@@ -140,7 +140,7 @@ export default function ChargingCalculator() {
               max={10000}
               value={monthlyKm}
               onChange={(e) => setMonthlyKm(Number(e.target.value) || 0)}
-              className="w-24 border border-border rounded-lg px-3 py-2 text-center text-sm font-medium"
+              className="w-24 border border-border rounded-lg px-3 py-2 text-center text-sm font-medium focus:border-accent focus:ring-2 focus:ring-accent/15 outline-none"
             />
           </div>
           <p className="text-xs text-muted mt-2">
@@ -149,7 +149,7 @@ export default function ChargingCalculator() {
         </div>
 
         {/* Car Model / Efficiency */}
-        <div className="bg-white rounded-xl border border-border/50 p-6">
+        <div className="bg-white rounded-lg border border-border/40 p-6">
           <label className="block font-semibold mb-3">
             דגם רכב / צריכת אנרגיה (קוט&quot;ש/100 ק&quot;מ)
           </label>
@@ -164,7 +164,7 @@ export default function ChargingCalculator() {
                   setSelectedModel(Number(e.target.value));
                 }
               }}
-              className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-white"
+              className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-white focus:border-accent focus:ring-2 focus:ring-accent/15 outline-none"
             >
               {evModels.map((model, i) => (
                 <option key={model.name} value={i}>
@@ -184,7 +184,7 @@ export default function ChargingCalculator() {
                   onChange={(e) =>
                     setCustomEfficiency(Number(e.target.value) || 16)
                   }
-                  className="w-28 border border-border rounded-lg px-3 py-2 text-center text-sm"
+                  className="w-28 border border-border rounded-lg px-3 py-2 text-center text-sm focus:border-accent focus:ring-2 focus:ring-accent/15 outline-none"
                 />
                 <span className="text-sm text-muted">
                   קוט&quot;ש/100 ק&quot;מ
@@ -195,7 +195,7 @@ export default function ChargingCalculator() {
         </div>
 
         {/* Electricity Rate */}
-        <div className="bg-white rounded-xl border border-border/50 p-6">
+        <div className="bg-white rounded-lg border border-border/40 p-6">
           <label className="block font-semibold mb-3">
             תעריף חשמל (&#8362;/קוט&quot;ש)
           </label>
@@ -205,8 +205,8 @@ export default function ChargingCalculator() {
                 key={option.label}
                 className={`flex items-center gap-3 cursor-pointer rounded-lg border px-4 py-3 text-sm transition-colors ${
                   !isCustomRate && selectedRate === i
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-border/50 hover:bg-gray-50'
+                    ? 'border-accent bg-accent/5'
+                    : 'border-border/50 hover:bg-surface-alt'
                 }`}
               >
                 <input
@@ -217,7 +217,7 @@ export default function ChargingCalculator() {
                     setIsCustomRate(false);
                     setSelectedRate(i);
                   }}
-                  className="accent-blue-600"
+                  className="accent-accent"
                 />
                 <span className="flex-1">{option.label}</span>
                 <span className="font-medium">
@@ -228,8 +228,8 @@ export default function ChargingCalculator() {
             <label
               className={`flex items-center gap-3 cursor-pointer rounded-lg border px-4 py-3 text-sm transition-colors ${
                 isCustomRate
-                  ? 'border-blue-500 bg-blue-50'
-                  : 'border-border/50 hover:bg-gray-50'
+                  ? 'border-accent bg-accent/5'
+                  : 'border-border/50 hover:bg-surface-alt'
               }`}
             >
               <input
@@ -237,7 +237,7 @@ export default function ChargingCalculator() {
                 name="rate"
                 checked={isCustomRate}
                 onChange={() => setIsCustomRate(true)}
-                className="accent-blue-600"
+                className="accent-accent"
               />
               <span className="flex-1">תעריף מותאם אישית</span>
               {isCustomRate && (
@@ -250,7 +250,7 @@ export default function ChargingCalculator() {
                   onChange={(e) =>
                     setCustomRate(Number(e.target.value) || 0.65)
                   }
-                  className="w-24 border border-border rounded-lg px-2 py-1 text-center text-sm"
+                  className="w-24 border border-border rounded-lg px-2 py-1 text-center text-sm focus:border-accent focus:ring-2 focus:ring-accent/15 outline-none"
                 />
               )}
             </label>
@@ -258,7 +258,7 @@ export default function ChargingCalculator() {
         </div>
 
         {/* Gasoline Price */}
-        <div className="bg-white rounded-xl border border-border/50 p-6">
+        <div className="bg-white rounded-lg border border-border/40 p-6">
           <label className="block font-semibold mb-3">
             מחיר דלק להשוואה (&#8362;/ליטר)
           </label>
@@ -270,7 +270,7 @@ export default function ChargingCalculator() {
               step={0.1}
               value={gasolinePrice}
               onChange={(e) => setGasolinePrice(Number(e.target.value))}
-              className="flex-1 accent-blue-600"
+              className="flex-1 accent-accent"
             />
             <input
               type="number"
@@ -281,7 +281,7 @@ export default function ChargingCalculator() {
               onChange={(e) =>
                 setGasolinePrice(Number(e.target.value) || 7.5)
               }
-              className="w-24 border border-border rounded-lg px-3 py-2 text-center text-sm font-medium"
+              className="w-24 border border-border rounded-lg px-3 py-2 text-center text-sm font-medium focus:border-accent focus:ring-2 focus:ring-accent/15 outline-none"
             />
           </div>
           <p className="text-xs text-muted mt-2">
@@ -294,10 +294,10 @@ export default function ChargingCalculator() {
       {/* Results */}
       <div className="space-y-6">
         {/* EV Costs Card */}
-        <div className="bg-white rounded-xl border border-border/50 p-6">
+        <div className="bg-white rounded-lg border border-border/40 p-6">
           <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
             <svg
-              className="h-5 w-5 text-blue-500"
+              className="h-5 w-5 text-accent"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -312,30 +312,30 @@ export default function ChargingCalculator() {
             עלות טעינה חשמלית
           </h3>
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-slate-50 rounded-lg p-4 text-center">
+            <div className="bg-surface-alt rounded-lg p-4 text-center">
               <p className="text-xs text-muted mb-1">צריכה חודשית</p>
               <p className="text-xl font-bold">
                 {formatNumber(results.monthlyKwh, 1)}
               </p>
               <p className="text-xs text-muted">קוט&quot;ש</p>
             </div>
-            <div className="bg-slate-50 rounded-lg p-4 text-center">
+            <div className="bg-surface-alt rounded-lg p-4 text-center">
               <p className="text-xs text-muted mb-1">עלות לק&quot;מ</p>
               <p className="text-xl font-bold">
                 {results.costPerKm.toFixed(2)}
               </p>
               <p className="text-xs text-muted">&#8362;</p>
             </div>
-            <div className="bg-blue-50 rounded-lg p-4 text-center">
+            <div className="bg-accent/5 rounded-lg p-4 text-center">
               <p className="text-xs text-muted mb-1">עלות חודשית</p>
-              <p className="text-2xl font-bold text-blue-700">
+              <p className="text-2xl font-bold text-accent-dark">
                 {formatCurrency(results.monthlyCost)}
               </p>
               <p className="text-xs text-muted">&#8362;</p>
             </div>
-            <div className="bg-blue-50 rounded-lg p-4 text-center">
+            <div className="bg-accent/5 rounded-lg p-4 text-center">
               <p className="text-xs text-muted mb-1">עלות שנתית</p>
-              <p className="text-2xl font-bold text-blue-700">
+              <p className="text-2xl font-bold text-accent-dark">
                 {formatCurrency(results.annualCost)}
               </p>
               <p className="text-xs text-muted">&#8362;</p>
@@ -344,7 +344,7 @@ export default function ChargingCalculator() {
         </div>
 
         {/* Gasoline Comparison Card */}
-        <div className="bg-white rounded-xl border border-border/50 p-6">
+        <div className="bg-white rounded-lg border border-border/40 p-6">
           <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
             <svg
               className="h-5 w-5 text-orange-500"
@@ -367,16 +367,16 @@ export default function ChargingCalculator() {
             השוואה לדלק
           </h3>
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-orange-50 rounded-lg p-4 text-center">
+            <div className="bg-cta/10 rounded-lg p-4 text-center">
               <p className="text-xs text-muted mb-1">עלות דלק חודשית</p>
-              <p className="text-2xl font-bold text-orange-700">
+              <p className="text-2xl font-bold text-cta-dark">
                 {formatCurrency(results.monthlyGasolineCost)}
               </p>
               <p className="text-xs text-muted">&#8362;</p>
             </div>
-            <div className="bg-orange-50 rounded-lg p-4 text-center">
+            <div className="bg-cta/10 rounded-lg p-4 text-center">
               <p className="text-xs text-muted mb-1">עלות דלק שנתית</p>
-              <p className="text-2xl font-bold text-orange-700">
+              <p className="text-2xl font-bold text-cta-dark">
                 {formatCurrency(results.annualGasolineCost)}
               </p>
               <p className="text-xs text-muted">&#8362;</p>
@@ -385,10 +385,10 @@ export default function ChargingCalculator() {
         </div>
 
         {/* Savings Card */}
-        <div className="bg-gradient-to-bl from-green-50 to-emerald-50 rounded-xl border border-green-200/50 p-6">
-          <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-green-800">
+        <div className="bg-success-light rounded-lg border border-success/20 p-6">
+          <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-success">
             <svg
-              className="h-5 w-5 text-green-600"
+              className="h-5 w-5 text-success"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -405,20 +405,20 @@ export default function ChargingCalculator() {
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-white/80 rounded-lg p-4 text-center">
               <p className="text-xs text-muted mb-1">חיסכון חודשי</p>
-              <p className="text-2xl font-bold text-green-700">
+              <p className="text-2xl font-bold text-success">
                 {formatCurrency(results.monthlySavings)}
               </p>
               <p className="text-xs text-muted">&#8362;</p>
             </div>
             <div className="bg-white/80 rounded-lg p-4 text-center">
               <p className="text-xs text-muted mb-1">חיסכון שנתי</p>
-              <p className="text-2xl font-bold text-green-700">
+              <p className="text-2xl font-bold text-success">
                 {formatCurrency(results.annualSavings)}
               </p>
               <p className="text-xs text-muted">&#8362;</p>
             </div>
           </div>
-          <p className="text-sm text-green-700 mt-4 text-center font-medium">
+          <p className="text-sm text-success mt-4 text-center font-medium">
             רכב חשמלי חוסך לכם כ-
             {results.monthlyGasolineCost > 0
               ? Math.round(
@@ -432,7 +432,7 @@ export default function ChargingCalculator() {
         {/* Share Button */}
         <button
           onClick={handleShare}
-          className="w-full flex items-center justify-center gap-2 bg-white rounded-xl border border-border/50 px-5 py-3 text-sm font-medium hover:shadow-md hover:-translate-y-0.5 transition-all"
+          className="w-full flex items-center justify-center gap-2 bg-white rounded-lg border border-border/40 px-5 py-3 text-sm font-medium hover:shadow-md hover:-translate-y-0.5 transition-all"
         >
           <svg
             className="h-4 w-4 text-muted"

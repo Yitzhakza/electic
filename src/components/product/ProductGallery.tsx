@@ -13,7 +13,7 @@ export default function ProductGallery({ images, title }: ProductGalleryProps) {
 
   if (images.length === 0) {
     return (
-      <div className="aspect-square bg-gray-100 rounded-xl flex items-center justify-center text-muted">
+      <div className="aspect-square bg-surface-alt rounded-xl flex items-center justify-center text-muted">
         אין תמונה
       </div>
     );
@@ -21,7 +21,7 @@ export default function ProductGallery({ images, title }: ProductGalleryProps) {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="relative aspect-square bg-gray-50 rounded-xl overflow-hidden">
+      <div className="relative aspect-square bg-surface-alt rounded-xl overflow-hidden">
         <Image
           src={images[selected]}
           alt={title}
@@ -37,8 +37,8 @@ export default function ProductGallery({ images, title }: ProductGalleryProps) {
             <button
               key={i}
               onClick={() => setSelected(i)}
-              className={`relative h-16 w-16 flex-shrink-0 rounded-lg overflow-hidden border-2 transition-colors cursor-pointer ${
-                i === selected ? 'border-primary' : 'border-border hover:border-gray-300'
+              className={`relative h-16 w-16 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-colors cursor-pointer ${
+                i === selected ? 'border-primary' : 'border-border hover:border-muted'
               }`}
             >
               <Image src={img} alt={`${title} ${i + 1}`} fill className="object-contain p-1" sizes="64px" />
