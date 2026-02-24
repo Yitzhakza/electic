@@ -53,12 +53,25 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
             ))}
           </div>
 
+          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">כלים</h3>
+          <div className="space-y-1 mb-6">
+            <Link href="/tools/charging-calculator" onClick={onClose} className="block px-3 py-2 rounded-lg text-sm hover:bg-gray-50 transition-colors">
+              מחשבון עלות טעינה
+            </Link>
+            <Link href="/compare/chargers" onClick={onClose} className="block px-3 py-2 rounded-lg text-sm hover:bg-gray-50 transition-colors">
+              השוואת מטענים
+            </Link>
+          </div>
+
           <div className="border-t border-border pt-4 space-y-1">
             <Link href="/all-vehicles" onClick={onClose} className="block px-3 py-2 rounded-lg text-sm hover:bg-gray-50">
               כל הרכבים
             </Link>
             <Link href="/coupons" onClick={onClose} className="block px-3 py-2 rounded-lg text-sm hover:bg-gray-50">
               קופונים
+            </Link>
+            <Link href="/blog" onClick={onClose} className="block px-3 py-2 rounded-lg text-sm hover:bg-gray-50">
+              מדריכים
             </Link>
             <Link href="/about" onClick={onClose} className="block px-3 py-2 rounded-lg text-sm hover:bg-gray-50">
               אודות
