@@ -1,16 +1,16 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { db } from '@/lib/db';
-import { products, productOverrides, brands, accessoryCategories } from '@/lib/db/schema';
+import { products, productOverrides, brands, accessoryCategories, platformCoupons } from '@/lib/db/schema';
 import { eq, and, ne, desc, sql } from 'drizzle-orm';
 import Breadcrumbs from '@/components/layout/Breadcrumbs';
 import ProductGallery from '@/components/product/ProductGallery';
 import ProductSpecs from '@/components/product/ProductSpecs';
-import CouponBadge from '@/components/CouponBadge';
 import ProductGrid from '@/components/product/ProductGrid';
 import Badge from '@/components/ui/Badge';
 import ShareButtons from '@/components/product/ShareButtons';
-import TrustSignals from '@/components/TrustSignals';
+import WhyBuyFromUs from '@/components/WhyBuyFromUs';
+import ProductCoupons from '@/components/ProductCoupons';
 import { formatPriceDual, calcDiscount, usdToIls } from '@/lib/utils/price';
 import type { Metadata } from 'next';
 import type { ProductDisplay } from '@/types';
@@ -122,12 +122,22 @@ export default async function ProductPage({ params }: PageProps) {
       shippingInfo: row.products.shippingInfo,
       affiliateUrl: row.products.affiliateUrl,
       couponCode: row.product_overrides?.couponOverride ?? row.products.couponCode,
+      couponDiscount: row.products.couponDiscount,
+      couponMinSpend: row.products.couponMinSpend,
+      couponExpiry: row.products.couponExpiry,
       brandSlug: row.brands?.slug ?? null,
       brandName: row.brands?.nameHe ?? null,
       categorySlug: row.accessory_categories?.slug ?? null,
       categoryName: row.accessory_categories?.nameHe ?? null,
     }));
   }
+
+  // Fetch active platform coupons
+  const activePlatformCoupons = await db
+    .select()
+    .from(platformCoupons)
+    .where(eq(platformCoupons.isActive, true))
+    .orderBy(platformCoupons.endDate);
 
   // JSON-LD Product schema
   const jsonLd = {
@@ -206,17 +216,22 @@ export default async function ProductPage({ params }: PageProps) {
           {/* Description */}
           {description && (
             <div className="bg-gray-50 rounded-xl p-4 border border-border/50">
-              <p className="text-sm leading-relaxed text-gray-700">{description}</p>
+              <div className="text-sm leading-relaxed text-gray-700 space-y-3">
+                {description.split('\n\n').map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
+              </div>
             </div>
           )}
 
-          {/* Coupon */}
-          {couponCode && (
-            <div>
-              <p className="text-sm font-medium mb-1">קוד קופון:</p>
-              <CouponBadge code={couponCode} />
-            </div>
-          )}
+          {/* Coupons */}
+          <ProductCoupons
+            couponCode={couponCode}
+            couponDiscount={product.couponDiscount}
+            couponMinSpend={product.couponMinSpend}
+            couponExpiry={product.couponExpiry}
+            platformCoupons={activePlatformCoupons}
+          />
 
           {/* CTA */}
           <a
@@ -231,8 +246,8 @@ export default async function ProductPage({ params }: PageProps) {
             </svg>
           </a>
 
-          {/* Trust Signals */}
-          <TrustSignals variant="compact" />
+          {/* Why Buy From Us */}
+          <WhyBuyFromUs variant="compact" />
         </div>
       </div>
 

@@ -47,6 +47,9 @@ export default function Header() {
                 </div>
               </div>
             </div>
+            <Link href="/coupons" className="text-muted hover:text-primary transition-colors">
+              קופונים
+            </Link>
             <Link href="/about" className="text-muted hover:text-primary transition-colors">
               אודות
             </Link>

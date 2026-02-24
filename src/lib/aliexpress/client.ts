@@ -1,4 +1,4 @@
-import { AliExpressApiError, type AliProduct, type AffiliateLink, type SearchParams } from './types';
+import { AliExpressApiError, type AliProduct, type AffiliateLink, type SearchParams, type FeaturedPromotion } from './types';
 
 const MAX_RETRIES = 3;
 const BASE_DELAY_MS = 1000;
@@ -100,6 +100,49 @@ export class AliExpressClient {
       // Coupon/promo endpoint may fail - silently ignore
     }
     return null;
+  }
+
+  async getFeaturedPromotions(): Promise<FeaturedPromotion[]> {
+    try {
+      const body: Record<string, string> = {
+        tracking_id: this.config.trackingId,
+      };
+
+      const data = await this.makeRequest('aliexpress.affiliate.featuredpromo.get', body);
+      const resp = data?.aliexpress_affiliate_featuredpromo_get_response;
+      const promos =
+        resp?.resp_result?.result?.promos?.promo ??
+        resp?.resp_result?.result?.promos ??
+        [];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return promos.map((p: any) => ({
+        promotionName: p.promo_name ?? '',
+        promotionDesc: p.promo_desc ?? '',
+        productCount: Number(p.product_num ?? 0),
+      }));
+    } catch {
+      return [];
+    }
+  }
+
+  async getPromotionProducts(promotionName: string, pageNo = 1): Promise<AliProduct[]> {
+    const body: Record<string, string> = {
+      promotion_name: promotionName,
+      tracking_id: this.config.trackingId,
+      page_no: String(pageNo),
+      page_size: '50',
+      target_currency: 'USD',
+      target_language: 'EN',
+      ship_to_country: 'IL',
+    };
+
+    const data = await this.makeRequest('aliexpress.affiliate.featuredpromo.products.get', body);
+    const resp = data?.aliexpress_affiliate_featuredpromo_products_get_response;
+    const products =
+      resp?.resp_result?.result?.products?.product ??
+      resp?.resp_result?.result?.products ??
+      [];
+    return products as AliProduct[];
   }
 
   // ── Internal request handler with retry + throttle ──────────────────

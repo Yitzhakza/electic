@@ -5,6 +5,7 @@ import { eq, desc, and, sql } from 'drizzle-orm';
 import BrandGrid from '@/components/brand/BrandGrid';
 import ProductGrid from '@/components/product/ProductGrid';
 import TrustSignals from '@/components/TrustSignals';
+import WhyBuyFromUs from '@/components/WhyBuyFromUs';
 import Newsletter from '@/components/Newsletter';
 import type { ProductDisplay } from '@/types';
 
@@ -39,6 +40,9 @@ function mapToDisplay(row: any): ProductDisplay {
     shippingInfo: row.products.shippingInfo,
     affiliateUrl: row.products.affiliateUrl,
     couponCode: row.product_overrides?.couponOverride ?? row.products.couponCode,
+    couponDiscount: row.products.couponDiscount,
+    couponMinSpend: row.products.couponMinSpend,
+    couponExpiry: row.products.couponExpiry,
     brandSlug: row.brands?.slug ?? null,
     brandName: row.brands?.nameHe ?? null,
     categorySlug: row.accessory_categories?.slug ?? null,
@@ -189,6 +193,20 @@ export default async function HomePage() {
       <section className="max-w-7xl mx-auto px-4 -mt-6 relative z-10">
         <TrustSignals variant="horizontal" />
       </section>
+
+      {/* Why Buy From Us */}
+      <section className="max-w-7xl mx-auto px-4 py-14">
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold">למה לקנות דרכנו?</h2>
+          <div className="h-1 w-12 bg-gradient-to-l from-green-500 to-emerald-400 rounded-full mt-2" />
+        </div>
+        <WhyBuyFromUs variant="full" />
+      </section>
+
+      {/* Divider */}
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="h-px bg-gradient-to-l from-transparent via-border to-transparent" />
+      </div>
 
       {/* Brands */}
       <section className="max-w-7xl mx-auto px-4 py-14">

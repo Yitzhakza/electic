@@ -21,6 +21,9 @@ export const AliProductSchema = z.object({
     .object({
       code: z.string().optional(),
       discount: z.string().optional(),
+      minSpend: z.string().optional(),
+      startDate: z.string().optional(),
+      endDate: z.string().optional(),
     })
     .optional(),
 });
@@ -44,6 +47,13 @@ export interface SearchParams {
   minPrice?: number;
   maxPrice?: number;
   shipToCountry?: string;
+}
+
+// ── Featured promotion ──────────────────────────────────────────────
+export interface FeaturedPromotion {
+  promotionName: string;
+  promotionDesc: string;
+  productCount: number;
 }
 
 // ── API error ───────────────────────────────────────────────────────

@@ -89,6 +89,11 @@ export async function runSync(options: SyncOptions): Promise<number> {
             }
 
             let couponCode: string | null = normalized.promoCodeInfo?.code ?? null;
+            const couponDiscount: string | null = normalized.promoCodeInfo?.discount ?? null;
+            const couponMinSpend: string | null = normalized.promoCodeInfo?.minSpend ?? null;
+            const couponExpiry: Date | null = normalized.promoCodeInfo?.endDate
+              ? new Date(normalized.promoCodeInfo.endDate)
+              : null;
             if (!couponCode) {
               try {
                 couponCode = await client.getProductCoupons(normalized.productId);
@@ -120,6 +125,9 @@ export async function runSync(options: SyncOptions): Promise<number> {
               originalUrl: String(normalized.productUrl),
               affiliateUrl,
               couponCode,
+              couponDiscount,
+              couponMinSpend,
+              couponExpiry,
               brandId: resolvedBrandId,
               categoryId: resolvedCategoryId,
               brandHints,

@@ -89,6 +89,9 @@ export const products = pgTable(
     originalUrl: text('original_url').notNull(),
     affiliateUrl: text('affiliate_url'),
     couponCode: varchar('coupon_code', { length: 64 }),
+    couponDiscount: varchar('coupon_discount', { length: 32 }),
+    couponMinSpend: varchar('coupon_min_spend', { length: 32 }),
+    couponExpiry: timestamp('coupon_expiry'),
     brandId: integer('brand_id').references(() => brands.id, { onDelete: 'set null' }),
     categoryId: integer('category_id').references(() => accessoryCategories.id, { onDelete: 'set null' }),
     brandHints: jsonb('brand_hints').$type<string[]>().notNull().default([]),
@@ -132,6 +135,22 @@ export const productOverrides = pgTable(
 export const productOverridesRelations = relations(productOverrides, ({ one }) => ({
   product: one(products, { fields: [productOverrides.productId], references: [products.id] }),
 }));
+
+// ── Platform Coupons ────────────────────────────────────────────────
+export const platformCoupons = pgTable('platform_coupons', {
+  id: serial('id').primaryKey(),
+  promoName: varchar('promo_name', { length: 128 }).notNull(),
+  promoNameHe: varchar('promo_name_he', { length: 128 }),
+  couponCode: varchar('coupon_code', { length: 64 }),
+  discountValue: varchar('discount_value', { length: 32 }),
+  minSpend: varchar('min_spend', { length: 32 }),
+  startDate: timestamp('start_date'),
+  endDate: timestamp('end_date'),
+  promotionUrl: text('promotion_url'),
+  isActive: boolean('is_active').notNull().default(true),
+  lastSyncAt: timestamp('last_sync_at').notNull().defaultNow(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+});
 
 // ── Sync Runs ───────────────────────────────────────────────────────
 export const syncRuns = pgTable('sync_runs', {

@@ -44,6 +44,9 @@ export interface Product {
   originalUrl: string;
   affiliateUrl: string | null;
   couponCode: string | null;
+  couponDiscount: string | null;
+  couponMinSpend: string | null;
+  couponExpiry: Date | null;
   brandId: number | null;
   categoryId: number | null;
   brandHints: string[];
@@ -105,9 +108,25 @@ export interface ProductDisplay {
   shippingInfo: string | null;
   affiliateUrl: string | null;
   couponCode: string | null;
+  couponDiscount: string | null;
+  couponMinSpend: string | null;
+  couponExpiry: Date | null;
   brandSlug: string | null;
   brandName: string | null;
   categorySlug: string | null;
   categoryName: string | null;
   createdAt?: string | Date;
+}
+
+export interface PlatformCoupon {
+  id: number;
+  promoName: string;
+  promoNameHe: string | null;
+  couponCode: string | null;
+  discountValue: string | null;
+  minSpend: string | null;
+  startDate: Date | null;
+  endDate: Date | null;
+  promotionUrl: string | null;
+  isActive: boolean;
 }

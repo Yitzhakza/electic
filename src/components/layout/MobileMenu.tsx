@@ -57,6 +57,9 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
             <Link href="/all-vehicles" onClick={onClose} className="block px-3 py-2 rounded-lg text-sm hover:bg-gray-50">
               כל הרכבים
             </Link>
+            <Link href="/coupons" onClick={onClose} className="block px-3 py-2 rounded-lg text-sm hover:bg-gray-50">
+              קופונים
+            </Link>
             <Link href="/about" onClick={onClose} className="block px-3 py-2 rounded-lg text-sm hover:bg-gray-50">
               אודות
             </Link>

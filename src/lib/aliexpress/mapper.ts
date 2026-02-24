@@ -85,11 +85,16 @@ function normalizeOrders(value: unknown): number {
   return 0;
 }
 
-function normalizePromoCode(raw: Record<string, unknown>): { code?: string; discount?: string } | undefined {
+function normalizePromoCode(raw: Record<string, unknown>): { code?: string; discount?: string; minSpend?: string; startDate?: string; endDate?: string } | undefined {
   const info = raw.promo_code_info as Record<string, string> | undefined;
   if (!info) return undefined;
+  const code = info.promo_code ?? info.code;
+  if (!code) return undefined;
   return {
-    code: info.promo_code ?? info.code,
+    code,
     discount: info.code_value ?? info.discount,
+    minSpend: info.code_mini_spend,
+    startDate: info.code_availabletime_start,
+    endDate: info.code_availabletime_end,
   };
 }
