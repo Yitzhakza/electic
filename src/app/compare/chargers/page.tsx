@@ -18,6 +18,14 @@ export const metadata: Metadata = {
     'השוואה מקיפה בין סוגי מטענים לרכב חשמלי בישראל — Type 2, נייד, קבוע, עוצמות שונות. טבלת השוואה והמלצות לפי רכב.',
 };
 
+function safeImages(images: unknown): string[] {
+  if (Array.isArray(images)) return images;
+  if (typeof images === 'string') {
+    try { const parsed = JSON.parse(images); return Array.isArray(parsed) ? parsed : []; } catch { return []; }
+  }
+  return [];
+}
+
 function mapToDisplay(row: any): ProductDisplay {
   return {
     id: row.products.id,
@@ -29,7 +37,7 @@ function mapToDisplay(row: any): ProductDisplay {
     description:
       row.product_overrides?.descriptionHeOverride ??
       row.products.descriptionHe,
-    images: row.products.images,
+    images: safeImages(row.products.images),
     price: row.products.price,
     currency: row.products.currency,
     originalPrice: row.products.originalPrice,

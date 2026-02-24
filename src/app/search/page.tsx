@@ -8,6 +8,14 @@ import Pagination from '@/components/ui/Pagination';
 import type { Metadata } from 'next';
 import type { ProductDisplay } from '@/types';
 
+function safeImages(images: unknown): string[] {
+  if (Array.isArray(images)) return images;
+  if (typeof images === 'string') {
+    try { const parsed = JSON.parse(images); return Array.isArray(parsed) ? parsed : []; } catch { return []; }
+  }
+  return [];
+}
+
 const PAGE_SIZE = 24;
 
 interface PageProps {
@@ -72,7 +80,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
       slug: row.products.slug,
       title: row.product_overrides?.titleHeOverride ?? row.products.titleHe ?? row.products.titleOriginal,
       description: row.product_overrides?.descriptionHeOverride ?? row.products.descriptionHe,
-      images: row.products.images,
+      images: safeImages(row.products.images),
       price: row.products.price,
       currency: row.products.currency,
       originalPrice: row.products.originalPrice,

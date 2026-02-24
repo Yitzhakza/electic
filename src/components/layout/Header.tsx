@@ -37,6 +37,9 @@ export default function Header() {
             <Link href="/blog" className="text-text-secondary hover:text-primary font-medium transition-colors">
               מדריכים
             </Link>
+            <Link href="/tools/charging-calculator" className="text-text-secondary hover:text-primary font-medium transition-colors">
+              מחשבון טעינה
+            </Link>
             <button
               className="bg-cta text-primary-dark font-semibold px-4 py-1.5 rounded-lg text-sm hover:bg-cta-dark transition-colors cursor-pointer"
               onClick={() => {

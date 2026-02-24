@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { db } from '@/lib/db';
 import { brands, products, accessoryCategories, productOverrides } from '@/lib/db/schema';
 import { eq, desc, and, sql } from 'drizzle-orm';
@@ -73,13 +74,21 @@ const defaultIcon = (
   </svg>
 );
 
+function safeImages(images: unknown): string[] {
+  if (Array.isArray(images)) return images;
+  if (typeof images === 'string') {
+    try { const parsed = JSON.parse(images); return Array.isArray(parsed) ? parsed : []; } catch { return []; }
+  }
+  return [];
+}
+
 function mapToDisplay(row: any): ProductDisplay {
   return {
     id: row.products.id,
     slug: row.products.slug,
     title: row.product_overrides?.titleHeOverride ?? row.products.titleHe ?? row.products.titleOriginal,
     description: row.product_overrides?.descriptionHeOverride ?? row.products.descriptionHe,
-    images: row.products.images,
+    images: safeImages(row.products.images),
     price: row.products.price,
     currency: row.products.currency,
     originalPrice: row.products.originalPrice,
@@ -185,40 +194,56 @@ export default async function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }} />
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-primary py-14 md:py-28">
-        <div className="absolute top-0 end-0 w-1/2 h-full bg-gradient-to-l from-white/[0.03] to-transparent" />
+      <section className="relative overflow-hidden bg-primary py-14 md:py-24">
+        <div className="absolute inset-0 bg-gradient-to-l from-white/[0.03] to-transparent" />
 
         <div className="relative max-w-7xl mx-auto px-4">
-          <div className="max-w-2xl">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-[1.15] tracking-tight">
-              כל מה שצריך לרכב<br />החשמלי שלכם
-            </h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-[1.15] tracking-tight">
+                כל מה שצריך לרכב<br />החשמלי שלכם
+              </h1>
 
-            <p className="text-lg text-white/70 mb-8 max-w-lg leading-relaxed">
-              אביזרים נבחרים, מחירים שקופים, קופונים פעילים. נבחר ונבדק עבורכם — עם משלוח ישיר לישראל.
-            </p>
+              <p className="text-lg text-white/70 mb-8 max-w-lg leading-relaxed">
+                אביזרים נבחרים, מחירים שקופים, קופונים פעילים. נבחר ונבדק עבורכם — עם משלוח ישיר לישראל.
+              </p>
 
-            <HeroCTAs />
+              <HeroCTAs />
 
-            <div className="flex items-center gap-4 mt-8 text-sm text-white/50">
-              <span className="flex items-center gap-1.5">
-                <svg className="h-4 w-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-                {totalProducts}+ מוצרים
-              </span>
-              <span className="flex items-center gap-1.5">
-                <svg className="h-4 w-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-                {totalBrands} מותגים
-              </span>
-              <span className="flex items-center gap-1.5">
-                <svg className="h-4 w-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-                משלוח לישראל
-              </span>
+              <div className="flex items-center gap-4 mt-8 text-sm text-white/50">
+                <span className="flex items-center gap-1.5">
+                  <svg className="h-4 w-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  {totalProducts}+ מוצרים
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <svg className="h-4 w-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  {totalBrands} מותגים
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <svg className="h-4 w-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  משלוח לישראל
+                </span>
+              </div>
+            </div>
+
+            <div className="hidden md:block relative">
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl shadow-black/30">
+                <Image
+                  src="/images/hero-ev.jpg"
+                  alt="טעינת רכב חשמלי"
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent" />
+              </div>
             </div>
           </div>
         </div>

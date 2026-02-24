@@ -17,6 +17,14 @@ import { formatPriceDual, calcDiscount, usdToIls } from '@/lib/utils/price';
 import type { Metadata } from 'next';
 import type { ProductDisplay } from '@/types';
 
+function safeImages(images: unknown): string[] {
+  if (Array.isArray(images)) return images;
+  if (typeof images === 'string') {
+    try { const parsed = JSON.parse(images); return Array.isArray(parsed) ? parsed : []; } catch { return []; }
+  }
+  return [];
+}
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
@@ -40,7 +48,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title,
     description: override?.descriptionHeOverride ?? product.descriptionHe ?? `${title} - אביזר לרכב חשמלי. משלוח לישראל.`,
     openGraph: {
-      images: product.images[0] ? [product.images[0]] : [],
+      images: safeImages(product.images)[0] ? [safeImages(product.images)[0]] : [],
     },
   };
 }
@@ -115,7 +123,7 @@ export default async function ProductPage({ params }: PageProps) {
       slug: row.products.slug,
       title: row.product_overrides?.titleHeOverride ?? row.products.titleHe ?? row.products.titleOriginal,
       description: row.product_overrides?.descriptionHeOverride ?? row.products.descriptionHe,
-      images: row.products.images,
+      images: safeImages(row.products.images),
       price: row.products.price,
       currency: row.products.currency,
       originalPrice: row.products.originalPrice,
@@ -152,7 +160,7 @@ export default async function ProductPage({ params }: PageProps) {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: title,
-    image: product.images.filter((img: string) => img.startsWith('http')),
+    image: safeImages(product.images).filter((img: string) => img.startsWith('http')),
     description: description ?? title,
     ...(brand && { brand: { '@type': 'Brand', name: brand.nameEn } }),
     ...(category && { category: category.nameHe }),
@@ -203,7 +211,7 @@ export default async function ProductPage({ params }: PageProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
         {/* Gallery */}
-        <ProductGallery images={product.images} title={title} />
+        <ProductGallery images={safeImages(product.images)} title={title} />
 
         {/* Product Info */}
         <div className="flex flex-col gap-4">

@@ -4,6 +4,14 @@ import { products, productOverrides, brands, accessoryCategories } from '@/lib/d
 import { eq, and, sql, desc } from 'drizzle-orm';
 import type { ProductDisplay } from '@/types';
 
+function safeImages(images: unknown): string[] {
+  if (Array.isArray(images)) return images;
+  if (typeof images === 'string') {
+    try { const parsed = JSON.parse(images); return Array.isArray(parsed) ? parsed : []; } catch { return []; }
+  }
+  return [];
+}
+
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
   const q = (searchParams.get('q') ?? '').trim();
@@ -50,7 +58,7 @@ export async function GET(request: NextRequest) {
     slug: row.products.slug,
     title: row.product_overrides?.titleHeOverride ?? row.products.titleHe ?? row.products.titleOriginal,
     description: row.product_overrides?.descriptionHeOverride ?? row.products.descriptionHe,
-    images: row.products.images,
+    images: safeImages(row.products.images),
     price: row.products.price,
     currency: row.products.currency,
     originalPrice: row.products.originalPrice,
