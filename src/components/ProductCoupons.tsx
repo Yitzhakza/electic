@@ -46,7 +46,7 @@ export default function ProductCoupons({
     return new Date(date).toLocaleDateString('he-IL', { day: 'numeric', month: 'short' });
   };
 
-  const hasCoupons = couponCode || bestMatch || platformCoupons.length > 0;
+  const hasCoupons = couponCode || bestMatch || platformCoupons.length > 0 || priceUsd > 0;
   if (!hasCoupons) return null;
 
   const extraDiff = nextTier ? (nextTier.minSpend - priceUsd).toFixed(0) : null;
