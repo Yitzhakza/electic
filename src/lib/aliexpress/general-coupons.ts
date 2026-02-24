@@ -44,6 +44,26 @@ export interface GeneralCouponsData {
   validUntil: string;
 }
 
+/**
+ * Given a product price in USD, returns:
+ * - `bestMatch`: the highest-tier coupon the buyer can use right now
+ * - `nextTier`: the next tier up (so user knows how much more to spend)
+ * - `allApplicable`: every coupon where minSpend <= price
+ */
+export function getRelevantCoupons(priceUsd: number): {
+  bestMatch: GeneralCoupon | null;
+  nextTier: GeneralCoupon | null;
+  allApplicable: GeneralCoupon[];
+} {
+  const { coupons } = getCurrentGeneralCoupons();
+  const applicable = coupons.filter((c) => priceUsd >= c.minSpend);
+  const bestMatch = applicable.length > 0 ? applicable[applicable.length - 1] : null;
+  const bestIdx = bestMatch ? coupons.findIndex((c) => c.code === bestMatch.code) : -1;
+  const nextTier = bestIdx >= 0 && bestIdx < coupons.length - 1 ? coupons[bestIdx + 1] : null;
+
+  return { bestMatch, nextTier, allApplicable: applicable };
+}
+
 export function getCurrentGeneralCoupons(): GeneralCouponsData {
   const now = new Date();
   const month = now.getMonth();

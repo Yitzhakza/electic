@@ -11,6 +11,7 @@ import Badge from '@/components/ui/Badge';
 import ShareButtons from '@/components/product/ShareButtons';
 import WhyBuyFromUs from '@/components/WhyBuyFromUs';
 import ProductCoupons from '@/components/ProductCoupons';
+import { getRelevantCoupons, getCurrentGeneralCoupons } from '@/lib/aliexpress/general-coupons';
 import { formatPriceDual, calcDiscount, usdToIls } from '@/lib/utils/price';
 import type { Metadata } from 'next';
 import type { ProductDisplay } from '@/types';
@@ -139,6 +140,10 @@ export default async function ProductPage({ params }: PageProps) {
     .where(eq(platformCoupons.isActive, true))
     .orderBy(platformCoupons.endDate);
 
+  // General coupons matched by product price
+  const relevantCoupons = getRelevantCoupons(product.price);
+  const generalCouponsData = getCurrentGeneralCoupons();
+
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ev-accessories.co.il';
 
   // JSON-LD Product schema
@@ -247,11 +252,17 @@ export default async function ProductPage({ params }: PageProps) {
 
           {/* Coupons */}
           <ProductCoupons
+            priceUsd={product.price}
             couponCode={couponCode}
             couponDiscount={product.couponDiscount}
             couponMinSpend={product.couponMinSpend}
             couponExpiry={product.couponExpiry}
+            bestMatch={relevantCoupons.bestMatch}
+            nextTier={relevantCoupons.nextTier}
+            allApplicable={relevantCoupons.allApplicable}
             platformCoupons={activePlatformCoupons}
+            monthNameHe={generalCouponsData.monthNameHe}
+            validUntil={generalCouponsData.validUntil}
           />
 
           {/* CTA */}

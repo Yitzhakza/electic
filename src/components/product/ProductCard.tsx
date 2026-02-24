@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Badge from '@/components/ui/Badge';
 import Card from '@/components/ui/Card';
 import { formatPriceDual, calcDiscount } from '@/lib/utils/price';
+import { getRelevantCoupons } from '@/lib/aliexpress/general-coupons';
 import type { ProductDisplay } from '@/types';
 
 interface ProductCardProps {
@@ -15,6 +16,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const isNew = product.createdAt
     ? (Date.now() - new Date(product.createdAt).getTime()) < 14 * 24 * 60 * 60 * 1000
     : false;
+  const { bestMatch } = getRelevantCoupons(product.price);
 
   return (
     <Card hover className="overflow-hidden flex flex-col group">
@@ -60,6 +62,14 @@ export default function ProductCard({ product }: ProductCardProps) {
           {product.originalPrice && product.originalPrice > product.price && (
             <span className="text-xs text-muted line-through">
               ${product.originalPrice.toFixed(2)}
+            </span>
+          )}
+          {bestMatch && (
+            <span className="flex items-center gap-1 text-xs text-orange-700 font-medium">
+              <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z" />
+              </svg>
+              קופון ${bestMatch.discount} הנחה: {bestMatch.code}
             </span>
           )}
         </div>
